@@ -16,7 +16,25 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 IST = timezone(timedelta(hours=5, minutes=30))
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+from urllib.parse import quote_plus, urlparse, unquote
+
+
+def _clean(v):
+    """Render me paste karte waqt aa jaane wale quotes / space / newline hata do."""
+    return (v or "").strip().strip('"').strip("'").strip()
+
+
+DATABASE_URL = _clean(os.environ.get("DATABASE_URL")) or None
+# Option B (aasaan): alag-alag variables - password me special character ho to bhi chalega
+_DB_HOST = _clean(os.environ.get("DB_HOST"))
+if _DB_HOST:
+    DATABASE_URL = "postgresql://%s:%s@%s:%s/%s" % (
+        quote_plus(_clean(os.environ.get("DB_USER")) or "postgres"),
+        quote_plus(os.environ.get("DB_PASSWORD", "").strip()),
+        _DB_HOST,
+        _clean(os.environ.get("DB_PORT")) or "5432",
+        _clean(os.environ.get("DB_NAME")) or "postgres",
+    )
 SQLITE_FILE = os.environ.get("SQLITE_FILE", "ultra_accounting.db")
 
 if DATABASE_URL:
@@ -39,9 +57,35 @@ def _web_dir():
 WEB_DIR = _web_dir()
 
 
+def _explain_db_error(err):
+    """Connection fail ho to Render logs me saaf bataye ki kya galat hai (password print nahi hota)."""
+    try:
+        m = re.match(r"^[a-z]+://([^:@/]*):(.*)@([^@/:]+):?(\d*)/", DATABASE_URL)
+        user, pw, host, port = (unquote(m.group(1)), unquote(m.group(2)), m.group(3), m.group(4)) if m else ("?", "", "?", "")
+        print("=" * 60, flush=True)
+        print("DB CHECK -> user=%r host=%r port=%r password_length=%d" % (user, host, port, len(pw)), flush=True)
+        if "pooler.supabase.com" in host and "." not in user:
+            print("FIX: Pooler ke liye username 'postgres.<project-ref>' hona chahiye (abhi sirf '%s' hai). "
+                  "Supabase > Connect > Session pooler se poora URI copy karein." % user, flush=True)
+        if host.startswith("db.") and host.endswith(".supabase.co"):
+            print("FIX: Ye Direct connection hai (IPv6). Render par Session pooler wala URI use karein.", flush=True)
+        if pw.startswith("[") or pw.endswith("]"):
+            print("FIX: Password me [ ] square brackets hain - unhe hata dein.", flush=True)
+        if len(pw) == 0:
+            print("FIX: Password khali hai.", flush=True)
+        print("FIX: Password galat ho to Supabase > Project Settings > Database > Reset database password.", flush=True)
+        print("=" * 60, flush=True)
+    except Exception:
+        pass
+
+
 def get_db():
     if DATABASE_URL:
-        return psycopg2.connect(DATABASE_URL)
+        try:
+            return psycopg2.connect(DATABASE_URL, connect_timeout=15)
+        except psycopg2.Error as e:
+            _explain_db_error(e)
+            raise
     return sqlite3.connect(SQLITE_FILE, timeout=20)
 
 
