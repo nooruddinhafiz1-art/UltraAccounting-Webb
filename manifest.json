@@ -1,14 +1,33 @@
+{
+  "name": "UltraAccounting",
+  "short_name": "UltraAccounting",
+  "description": "Multi-Shop Billing & Accounting Software",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "background_color": "#0A234B",
+  "theme_color": "#0A234B",
   "icons": [
     {
-      "src": "/UltraAccounting.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/UltraAccounting.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
+}

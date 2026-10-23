@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0A234B">
-<link rel="icon" href="/icon.svg">
+<link rel="icon" type="image/png" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>UltraAccounting — Billing Software</title>
 <style>
 :root{--navy:#0A234B;--navy2:#071a3a;--navy3:#12356e;--cyan:#01C3FF;--light:#EEF4FD;--green:#0E8A3E;--red:#C62828;--amber:#E69A1F;--grey:#64748b;--bg:#f2f5fb;--white:#fff;--line:#e3e9f3;--ink:#0f1b2e;--sh:0 1px 2px rgba(10,35,75,.05),0 10px 30px -16px rgba(10,35,75,.2)}
@@ -129,6 +132,23 @@ td.n,th.n{text-align:right;white-space:nowrap}.tw{overflow-x:auto}
 .nav{display:flex;gap:2px;flex:1}.nav button{width:auto;padding:8px 12px;font-size:13px;margin:0;border-radius:10px}.side .me{display:none}
 .view{padding:14px}.top{padding:10px 14px;position:static}.top h1{font-size:17px}.foot{padding:8px 14px;font-size:11px}.stat b{font-size:22px}.stat .si{font-size:28px}
 .tot{max-width:none}}
+/* Boot splash + phone layout */
+#boot{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:linear-gradient(160deg,#071a3a,#12356e);color:#fff;font-family:system-ui,"Segoe UI","Nirmala UI",sans-serif}
+#boot .sp{width:42px;height:42px;border-radius:50%;border:4px solid rgba(255,255,255,.25);border-top-color:#01C3FF;animation:bs 0.9s linear infinite}
+@keyframes bs{to{transform:rotate(360deg)}}
+#bootErr{position:fixed;inset:0;z-index:9999;background:#fff;color:#0f1b2e;padding:22px;font-family:system-ui,"Segoe UI",sans-serif;overflow:auto}
+#bootErr h2{color:#B3261E;margin:0 0 8px}#bootErr code{display:block;background:#f2f5fb;padding:10px;border-radius:8px;margin:10px 0;font-size:12.5px;word-break:break-word}
+#bootErr button{padding:11px 18px;border:0;border-radius:10px;background:#0A234B;color:#fff;font-weight:700;margin:6px 8px 0 0;font-size:14px}
+@media(max-width:600px){
+.stats{grid-template-columns:1fr 1fr;gap:10px}
+.stat{padding:12px 14px;border-radius:14px}.stat b{font-size:19px}.stat span{font-size:11.5px}.stat .si{font-size:24px;right:8px;top:8px}
+.card{padding:14px;border-radius:14px;margin-bottom:12px}.view{padding:12px}
+.modalbg{padding:10px 6px}.modal{padding:16px;margin-top:12px}
+.tabs button{min-width:120px}
+.top{gap:6px}.top .r{width:100%;flex-wrap:nowrap;gap:6px;align-items:center}
+.top .r .chip{font-size:11px;padding:4px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.top .r #status{flex:1 1 auto}.top .r .chip:last-child{flex:0 1 36%}.top .r .btn{flex:none}
+}
 /* Print */
 #printArea{display:none}
 .rc{color:#000;font-family:Arial,"Nirmala UI",sans-serif;width:100%;font-size:12px;padding:8px}
@@ -154,10 +174,28 @@ body.printing #printArea{display:block}body.printing{background:#fff}}
 <style id="pg"></style>
 </head>
 <body>
-<div id="app"></div>
+<div id="app"><div id="boot"><div class="sp"></div><b style="font-size:18px">UltraAccounting</b><span style="opacity:.75;font-size:13px">Loading…</span></div></div>
 <div id="printArea"></div>
 <div id="toast"></div>
 
+<script>
+window.__bootOK=false;
+function __bootFail(msg){
+ if(window.__bootOK||document.getElementById('bootErr'))return;
+ var d=document.createElement('div');d.id='bootErr';
+ d.innerHTML='<h2>App start nahi ho paya</h2><div>Ye screenshot support ko bhej dein: <b>7602292599</b></div><code></code>'+
+ '<button id="be1">Dobara try karein</button><button id="be2" style="background:#B3261E">Cache saaf karke reload</button>';
+ document.body.appendChild(d);d.querySelector('code').textContent=msg;
+ document.getElementById('be1').onclick=function(){location.reload()};
+ document.getElementById('be2').onclick=function(){
+  var p=[];try{if(navigator.serviceWorker)p.push(navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(x){return x.unregister()}))}))}catch(e){}
+  try{if(window.caches)p.push(caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k)}))}))}catch(e){}
+  Promise.all(p).then(function(){location.reload()},function(){location.reload()})};
+}
+window.addEventListener('error',function(e){__bootFail((e.message||'Error')+' ['+String(e.filename||'').split('/').pop()+':'+e.lineno+']')});
+window.addEventListener('unhandledrejection',function(e){__bootFail('Promise: '+((e.reason&&e.reason.message)||e.reason))});
+setTimeout(function(){__bootFail('App 12 second me start nahi hua. Internet / server check karein, ya neeche se cache saaf karein.')},12000);
+</script>
 <script>
 'use strict';
 const HELP_PHONE='7602292599', HELP_EMAIL='support@ultraaccounting.com';
@@ -180,7 +218,7 @@ function toast(m,bad){const d=document.createElement('div');d.textContent=m;if(b
 function modal(html,wide){closeModal();const d=document.createElement('div');d.className='modalbg';d.id='mdl';d.innerHTML=`<div class="modal${wide?' wide':''}">${html}</div>`;document.body.appendChild(d)}
 function closeModal(){const m=$('mdl');if(m)m.remove()}
 
-function openDB(){return new Promise(res=>{try{const r=indexedDB.open('ultra_accounting',4);r.onupgradeneeded=()=>{STORES.forEach(s=>{if(!r.result.objectStoreNames.contains(s))r.result.createObjectStore(s,{keyPath:'id'})})};r.onsuccess=()=>res(r.result);r.onerror=()=>res(null)}catch(e){res(null)}})}
+function openDB(){return new Promise(res=>{try{const r=indexedDB.open('ultra_accounting',4);r.onupgradeneeded=()=>{STORES.forEach(s=>{if(!r.result.objectStoreNames.contains(s))r.result.createObjectStore(s,{keyPath:'id'})})};r.onsuccess=()=>{r.result.onversionchange=()=>{try{r.result.close()}catch(e){}};res(r.result)};r.onerror=()=>res(null);r.onblocked=()=>{try{__bootFail('Doosra UltraAccounting tab/app khula hai — use band karke yahan dobara try karein.')}catch(e){}}}catch(e){res(null)}})}
 function idbAll(s){return new Promise(res=>{if(!idb)return res([]);try{const q=idb.transaction(s).objectStore(s).getAll();q.onsuccess=()=>res(q.result);q.onerror=()=>res([])}catch(e){res([])}})}
 function idbPut(s,o){if(!idb)return;try{idb.transaction(s,'readwrite').objectStore(s).put(o)}catch(e){}}
 function idbClear(s){return new Promise(res=>{if(!idb)return res();try{const t=idb.transaction(s,'readwrite');t.objectStore(s).clear();t.oncomplete=res;t.onerror=res}catch(e){res()}})}
@@ -231,7 +269,7 @@ function renderStatus(){const el=$('status');if(!el)return;let c='ok',t;const on
 function logoHTML(){return `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="76" height="76" rx="16" fill="#fff" stroke="#0A234B" stroke-width="3"/><text x="14" y="58" font-family="Arial Black,Arial" font-weight="900" font-size="52" fill="#0A234B">U</text><text x="40" y="58" font-family="Arial Black,Arial" font-weight="900" font-size="52" fill="#0A234B">A</text><path d="M58 14 L66 22 L78 6" fill="none" stroke="#E02020" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="60" y="48" width="6" height="10" fill="#01C3FF"/><rect x="68" y="42" width="6" height="16" fill="#01C3FF"/></svg>`}
 
 /* ========== LOGIN ========== */
-function renderLogin(){$('app').innerHTML=`<div class="login">
+function renderLogin(){window.__bootOK=true;$('app').innerHTML=`<div class="login">
  <div class="hero">${logoHTML()}<h2>UltraAccounting</h2><p>All-in-One Business Billing &amp; Accounting — bill banao, due track karo, report dekho. Internet ho ya na ho.</p>
   <ul><li><i>🧾</i>Fast billing + Print + WhatsApp</li><li><i>💰</i>Due list &amp; customer ledger</li><li><i>☁️</i>Offline chalega, online sync hoga</li></ul></div>
  <div class="formside"><div class="box"><h1>Welcome 👋</h1><p class="sub">Apni dukaan me login karein</p>
@@ -246,6 +284,7 @@ async function doLogin(){
  const code=$('lc').value.trim().toUpperCase(),username=$('lu').value.trim().toLowerCase(),password=$('lp').value;
  if(!code||!username||!password){$('le').textContent='Sab fields bharein';return}
  const btn=$('lbtn');btn.disabled=true;btn.textContent='Checking…';
+ const wake=setTimeout(()=>{if(btn.disabled)btn.textContent='Server jaag raha hai… 30-50 sec lag sakte hain'},4000);
  try{
   const r=await fetch(API_BASE+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,username,password})});
   const j=await r.json();
@@ -267,6 +306,7 @@ async function doLogin(){
   if(!S.name||!S.setupDone){renderWizard();return}
   page='dashboard';render();syncNow();
  }catch(e){$('le').textContent='Network error. Internet check karein.';btn.disabled=false;btn.textContent='Login'}
+ finally{clearTimeout(wake)}
 }
 
 function renderWizard(){
@@ -327,7 +367,7 @@ function navOK(k){if(ADMIN_ONLY.includes(k))return ME&&ME.role==='admin';return 
 
 function nav(p){if(!navOK(p)){toast('Aapko is page ki permission nahi hai',true);return}page=p;if(p==='billing'&&!F)F=newBill();if(p!=='billing')F=null;render();window.scrollTo(0,0)}
 
-function render(){
+function render(){window.__bootOK=true;
  if(!ME||!TOKEN){renderLogin();return}
  if(!S.setupDone){renderWizard();return}
  
@@ -1424,7 +1464,12 @@ async function init(){
  setInterval(()=>{if(TOKEN)syncNow()},15000);
 }
 init();
-if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('/sw.js').catch(()=>{});
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
+ const hadSW=!!navigator.serviceWorker.controller;
+ navigator.serviceWorker.register('/sw.js').then(reg=>{try{reg.update()}catch(e){}}).catch(()=>{});
+ navigator.serviceWorker.addEventListener('controllerchange',()=>{if(hadSW&&!window.__swReload){window.__swReload=1;location.reload()}});
+}
+setInterval(()=>{if(TOKEN&&navigator.onLine)fetch(API_BASE+'/api/ping').catch(()=>{})},240000);
 </script>
 </body>
 </html>

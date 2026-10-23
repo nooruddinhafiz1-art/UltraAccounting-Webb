@@ -16,11 +16,27 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 IST = timezone(timedelta(hours=5, minutes=30))
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+from urllib.parse import quote_plus, unquote
+
+
+def _clean(v):
+    """Render me paste karte waqt aa jaane wale quotes / space / newline hata do."""
+    return (v or "").strip().strip('"').strip("'").strip()
+
+
+DATABASE_URL = _clean(os.environ.get("DATABASE_URL")) or None
+_DB_HOST = _clean(os.environ.get("DB_HOST"))
+if _DB_HOST:  # alag-alag variables: password me special character ho to bhi chalega
+    DATABASE_URL = "postgresql://%s:%s@%s:%s/%s" % (
+        quote_plus(_clean(os.environ.get("DB_USER")) or "postgres"),
+        quote_plus(os.environ.get("DB_PASSWORD", "").strip()),
+        _DB_HOST, _clean(os.environ.get("DB_PORT")) or "5432", _clean(os.environ.get("DB_NAME")) or "postgres")
 SQLITE_FILE = os.environ.get("SQLITE_FILE", "ultra_accounting.db")
 
 if DATABASE_URL:
     import psycopg2
+    import psycopg2.pool
+    import threading
     PH = "%s"
 else:
     PH = "?"
@@ -39,9 +55,116 @@ def _web_dir():
 WEB_DIR = _web_dir()
 
 
+def _explain_db_error(err):
+    """Connection fail ho to Render logs me saaf bataye ki kya galat hai (password print nahi hota)."""
+    try:
+        m = re.match(r"^[a-z]+://([^:@/]*):(.*)@([^@/:]+):?(\d*)/", DATABASE_URL)
+        user, pw, host, port = (unquote(m.group(1)), unquote(m.group(2)), m.group(3), m.group(4)) if m else ("?", "", "?", "")
+        print("=" * 60, flush=True)
+        print("DB CHECK -> user=%r host=%r port=%r password_length=%d" % (user, host, port, len(pw)), flush=True)
+        if "pooler.supabase.com" in host and "." not in user:
+            print("FIX: Pooler ke liye username 'postgres.<project-ref>' hona chahiye.", flush=True)
+        if host.startswith("db.") and host.endswith(".supabase.co"):
+            print("FIX: Direct connection (IPv6) hai - Render par Session pooler wala host use karein.", flush=True)
+        if pw.startswith("[") or pw.endswith("]"):
+            print("FIX: Password me [ ] brackets hain - hata dein.", flush=True)
+        print("FIX: Password galat ho to Supabase > Project Settings > Database > Reset database password.", flush=True)
+        print("=" * 60, flush=True)
+    except Exception:
+        pass
+
+
+_pool = None
+_pool_pid = None
+_pool_lock = None
+_last_used = {}
+PG_POOL_MAX = int(os.environ.get("PG_POOL_MAX", "4"))
+PG_IDLE_PING = 20  # itne second idle rehne wale connection ko use se pehle check karo
+
+
+class _PooledConn:
+    """psycopg2 connection ka wrapper: close() = connection pool me wapas (har request par naya connection nahi banta)."""
+
+    def __init__(self, c, pooled):
+        self._c = c
+        self._pooled = pooled
+
+    def cursor(self, *a, **k):
+        return self._c.cursor(*a, **k)
+
+    def commit(self):
+        self._c.commit()
+
+    def rollback(self):
+        self._c.rollback()
+
+    def close(self):
+        c, self._c = self._c, None
+        if c is None:
+            return
+        try:
+            if not c.closed:
+                try:
+                    c.rollback()
+                except Exception:
+                    pass
+        finally:
+            if self._pooled:
+                try:
+                    _last_used[id(c)] = time.time()
+                    _pool.putconn(c, close=bool(c.closed))
+                except Exception:
+                    pass
+            else:
+                try:
+                    c.close()
+                except Exception:
+                    pass
+
+    def __del__(self):  # agar koi code path close() bhool jaye to bhi connection wapas aa jaye
+        try:
+            self.close()
+        except Exception:
+            pass
+
+
+def _pg_connect():
+    global _pool, _pool_pid, _pool_lock
+    if _pool_lock is None:
+        _pool_lock = threading.Lock()
+    with _pool_lock:
+        if _pool is None or _pool_pid != os.getpid():
+            _pool = psycopg2.pool.ThreadedConnectionPool(
+                1, PG_POOL_MAX, DATABASE_URL, connect_timeout=15,
+                keepalives=1, keepalives_idle=30, keepalives_interval=10, keepalives_count=3)
+            _pool_pid = os.getpid()
+    for _ in range(3):
+        try:
+            c = _pool.getconn()
+        except psycopg2.pool.PoolError:  # pool bhar gaya - alag se ek connection do
+            return _PooledConn(psycopg2.connect(DATABASE_URL, connect_timeout=15), False)
+        if c.closed:
+            _pool.putconn(c, close=True)
+            continue
+        if time.time() - _last_used.get(id(c), 0) > PG_IDLE_PING:
+            try:  # purana connection server ne band kar diya ho to yahin pata chal jayega
+                cur = c.cursor()
+                cur.execute("SELECT 1")
+                c.rollback()
+            except Exception:
+                _pool.putconn(c, close=True)
+                continue
+        return _PooledConn(c, True)
+    return _PooledConn(psycopg2.connect(DATABASE_URL, connect_timeout=15), False)
+
+
 def get_db():
     if DATABASE_URL:
-        return psycopg2.connect(DATABASE_URL)
+        try:
+            return _pg_connect()
+        except psycopg2.Error as e:
+            _explain_db_error(e)
+            raise
     return sqlite3.connect(SQLITE_FILE, timeout=20)
 
 
@@ -174,6 +297,26 @@ def icon():
     return send_from_directory(WEB_DIR, "icon.svg", mimetype="image/svg+xml")
 
 
+_ICON_FILES = {
+    "UltraAccounting.png": "image/png", "icon-192.png": "image/png", "icon-512.png": "image/png",
+    "icon-maskable-512.png": "image/png", "apple-touch-icon.png": "image/png", "UltraAccounting.ico": "image/x-icon",
+}
+
+
+@app.route("/<fname>")
+def icon_files(fname):
+    if fname in _ICON_FILES:
+        resp = send_from_directory(WEB_DIR, fname, mimetype=_ICON_FILES[fname])
+        resp.headers["Cache-Control"] = "public, max-age=86400"
+        return resp
+    return jsonify({"error": "not found"}), 404
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(WEB_DIR, "UltraAccounting.ico", mimetype="image/x-icon")
+
+
 @app.route("/super")
 def super_page():
     resp = send_from_directory(WEB_DIR, "super.html")
@@ -261,6 +404,9 @@ def make_token(payload):
     return secrets.token_hex(32)
 
 
+_auth_cache = {}
+
+
 def _auth(req):
     """Token se user verify karo."""
     tok = req.headers.get("X-Auth-Token") or (req.get_json(silent=True) or {}).get("_token")
@@ -280,7 +426,11 @@ def _auth(req):
         if time.time() - sess.get("ts", 0) > SUPER_TOKEN_AGE:
             return None
         return sess
-    # Shop session: shop/user abhi bhi active hona chahiye (block karte hi turant band)
+    # Shop session: shop/user abhi bhi active hona chahiye (block karne ke ~20 sec ke andar band ho jata hai)
+    ck = (sess.get("shop_id"), sess.get("user_id"))
+    hit = _auth_cache.get(ck)
+    if hit and hit > time.time():
+        return sess
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
@@ -290,7 +440,9 @@ def _auth(req):
     r = cur.fetchone()
     conn.close()
     if not r or not r[0] or not r[1]:
+        _auth_cache.pop(ck, None)
         return None
+    _auth_cache[ck] = time.time() + 20
     return sess
 
 
