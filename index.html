@@ -149,6 +149,19 @@ td.n,th.n{text-align:right;white-space:nowrap}.tw{overflow-x:auto}
 .top .r .chip{font-size:11px;padding:4px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .top .r #status{flex:1 1 auto}.top .r .chip:last-child{flex:0 1 36%}.top .r .btn{flex:none}
 }
+/* clickable cards */
+.stat.click{cursor:pointer}.stat.click:hover{transform:translateY(-3px);box-shadow:0 14px 28px -14px rgba(10,35,75,.5)}.stat.click:active{transform:scale(.98)}
+/* second language overlay */
+.l2{display:block;font-size:.74em;font-weight:500;opacity:.85;line-height:1.25;margin-top:1px;letter-spacing:0;text-transform:none;white-space:normal}
+th .l2{font-weight:600;opacity:.8}
+h1 .l2,h2 .l2,h3 .l2{display:inline;margin-left:8px;font-size:.6em;font-weight:600;opacity:.75}
+.nav button,.btn{flex-wrap:wrap}
+.nav button .l2{flex-basis:100%;font-size:11px;opacity:.7;padding-left:30px;margin-top:-1px}
+.btn .l2{flex-basis:100%;text-align:center;font-size:10.5px;opacity:.85}
+.stat span .l2{font-size:.85em;opacity:.8}
+.langsel{width:auto;margin:0;padding:5px 10px;border-radius:99px;font-size:12.5px;font-weight:600}
+.login .formside{position:relative}.login .langbar{position:absolute;top:14px;right:14px}
+@media(max-width:900px){.nav button .l2{padding-left:0;flex-basis:auto;display:block}.nav button{flex-wrap:wrap;justify-content:center;text-align:center}}
 /* Print */
 #printArea{display:none}
 .rc{color:#000;font-family:Arial,"Nirmala UI",sans-serif;width:100%;font-size:12px;padding:8px}
@@ -199,10 +212,48 @@ setTimeout(function(){__bootFail('App 12 second me start nahi hua. Internet / se
 <script>
 'use strict';
 const HELP_PHONE='7602292599', HELP_EMAIL='support@ultraaccounting.com';
+const I18N_RAW="Dashboard||ড্যাশবোর্ড|डैशबोर्ड\nNew Bill||নতুন বিল|नया बिल\nBills||বিলসমূহ|बिल\nCustomers||গ্রাহক|ग्राहक\nItems / Stock||আইটেম / স্টক|आइटम / स्टॉक\nPurchase||ক্রয়|खरीद\nDue List||বাকির তালিকা|बकाया सूची\nLena Dena|Personal Ledger|ব্যক্তিগত খাতা|निजी खाता\nKharcha|Expenses|খরচ|खर्च\nReports||রিপোর্ট|रिपोर्ट\nStaff||কর্মচারী|कर्मचारी\nSettings||সেটিংস|सेटिंग्स\nHelp||সাহায্য|सहायता\nLogout||লগআউট|लॉगआउट\nLogin||লগইন|लॉगिन\nChecking…||যাচাই হচ্ছে…|\nWelcome 👋||স্বাগতম 👋|\nLogin to your shop||আপনার দোকানে লগইন করুন|अपनी दुकान में लॉगिन करें\nShop Code||দোকান কোড|दुकान कोड\nUsername||ইউজারনেম|यूज़रनेम\nPassword||পাসওয়ার্ড|पासवर्ड\nCancel||বাতিল|रद्द करें\nClose||বন্ধ করুন|बंद करें\nSave||সংরক্ষণ|सहेजें\nEdit||সম্পাদনা|संपादित करें\nDel||মুছুন|हटाएँ\nDelete||মুছুন|हटाएँ\nView||দেখুন|देखें\nSearch||খুঁজুন|खोजें\nActions||কাজ|कार्य\nStatus||অবস্থা|स्थिति\nDate||তারিখ|तारीख\nDate:||তারিখ:|\nName||নাম|नाम\nName *||নাম *|नाम *\nMobile||মোবাইল|मोबाइल\nAddress||ঠিকানা|पता\nNote||নোট|नोट\nNotes||নোট|नोट\nAmount||পরিমাণ|राशि\nAmount (₹) *||পরিমাণ (₹) *|\nTotal||মোট|कुल\nPaid||পরিশোধিত|भुगतान किया\nDue||বাকি|बकाया\nBalance||ব্যালেন্স|शेष\nFrom||থেকে|से\nTo||পর্যন্ত|तक\nToday||আজ|आज\nAll||সব|सभी\nType||ধরন|प्रकार\nMode||পেমেন্ট মাধ্যম|भुगतान माध्यम\nCash||নগদ|नकद\nUPI / QR||UPI / QR|\nCard||কার্ড|कार्ड\nCheque||চেক|चेक\nBank Transfer||ব্যাংক ট্রান্সফার|बैंक ट्रांसफर\nOnline||অনলাইন|\nOffline||অফলাইন|ऑफ़लाइन\nSyncing…||সিঙ্ক হচ্ছে…|\nre:^Online · synced( .+)?$|Online · synced$1|অনলাইন · সিঙ্ক হয়েছে$1|\nre:^Online · (\\d+) waiting to sync$|Online · $1 waiting to sync|অনলাইন · $1টি সিঙ্কের অপেক্ষায়|\nre:^Offline — data local me safe hai \\((\\d+) waiting\\)$|Offline — data is safe on this device ($1 waiting)|অফলাইন — ডেটা এই ডিভাইসে সুরক্ষিত ($1টি অপেক্ষায়)|\nOffline — data local me safe hai|Offline — data is safe on this device|অফলাইন — ডেটা এই ডিভাইসে সুরক্ষিত|\nAaj ki sale|Today's sale|আজকের বিক্রি|आज की बिक्री\nAaj ka collection|Today's collection|আজকের আদায়|आज की वसूली\nAaj ka due|Today's due|আজকের বাকি|आज का बकाया\nAaj ke bills|Today's bills|আজকের বিল|आज के बिल\nAaj ke recent bills|Today's recent bills|আজকের সাম্প্রতিক বিল|आज के हाल के बिल\nTotal due||মোট বাকি|कुल बकाया\nAaj ka kharcha|Today's expenses|আজকের খরচ|\nPayable to wholesalers||পাইকারকে দেয় টাকা|\nPichhle 7 din ki sale|Last 7 days sales|গত ৭ দিনের বিক্রি|\n· personal hisab|· personal account|· ব্যক্তিগত হিসাব|\nMujhe milna hai|I will receive|আমি পাব|मुझे मिलेगा\nMujhe dena hai|I have to pay|আমাকে দিতে হবে|मुझे देना है\nQuick Actions||দ্রুত কাজ|त्वरित कार्य\n+ Naya Bill|+ New Bill|+ নতুন বিল|+ नया बिल\n+ Customer||+ গ্রাহক|+ ग्राहक\n+ Item||+ আইটেম|+ आइटम\nAaj koi bill nahi bana. \"New Bill\" pe click karein.|No bills today. Click \"New Bill\" to create one.|আজ কোনো বিল হয়নি। \"নতুন বিল\"-এ ক্লিক করুন।|\nre:^(\\d+) items ka stock kam hai$|$1 items are low on stock|$1টি আইটেমের স্টক কম|\nCheck||দেখুন|\nBill No.||বিল নং|बिल नं.\nBill No:||বিল নং:|\nCustomer||গ্রাহক|ग्राहक\nCustomer:||গ্রাহক:|\nItems||আইটেম|आइटम\nItem||আইটেম|आइटम\nRate||দর|दर\nQty||পরিমাণ|मात्रा\nCustomer GSTIN||গ্রাহকের GSTIN|ग्राहक का GSTIN\n(optional)||(ঐচ্ছিক)|(वैकल्पिक)\nBill Date||বিলের তারিখ|बिल की तारीख\nItem name type karein (Enter = add)|Type item name (Enter = add)|আইটেমের নাম লিখুন (Enter = যোগ)|\nKoi item nahi. Upar search karke add karein.|No items yet. Search above to add.|এখনও কোনো আইটেম নেই। উপরে খুঁজে যোগ করুন।|\nPayment||পেমেন্ট|भुगतान\nDiscount (₹)||ছাড় (₹)|छूट (₹)\nPaid (₹)||পরিশোধ (₹)|भुगतान (₹)\nGST Tax Invoice||GST ট্যাক্স ইনভয়েস|GST टैक्स इनवॉइस\nPrice type||দামের ধরন|मूल्य का प्रकार\nPlace of supply||সরবরাহের স্থান|आपूर्ति का स्थान\nRates are without GST (GST added on top)||দাম GST ছাড়া (উপরে GST যোগ হবে)|\nRates include GST (MRP)||দামে GST অন্তর্ভুক্ত (MRP)|\nSame state — CGST + SGST||একই রাজ্য — CGST + SGST|\nOther state — IGST||অন্য রাজ্য — IGST|\nOff = normal bill without GST||বন্ধ = GST ছাড়া সাধারণ বিল|\nSub Total||সাব টোটাল|उप-योग\nSub Total:||সাব টোটাল:|\nDiscount||ছাড়|छूट\nNet Total||সর্বমোট|कुल योग\nCGST||CGST|\nSGST||SGST|\nIGST||IGST|\nGST||GST|\nGST %||GST %|GST %\nSave & Print||সংরক্ষণ ও প্রিন্ট|सहेजें और प्रिंट\nSave & WhatsApp||সংরক্ষণ ও WhatsApp|सहेजें और WhatsApp\nSave only||শুধু সংরক্ষণ|सिर्फ़ सहेजें\nClear||মুছে ফেলুন|साफ़ करें\nUpdate & Print||আপডেট ও প্রিন্ট|अपडेट और प्रिंट\nUpdate & WhatsApp||আপডেট ও WhatsApp|अपडेट और WhatsApp\nUpdate Bill||বিল আপডেট|बिल अपडेट करें\nCancel Edit||সম্পাদনা বাতিল|संपादन रद्द करें\nExisting customer ·||বিদ্যমান গ্রাহক ·|\nNaya customer|New customer|নতুন গ্রাহক|\nExisting customers||বিদ্যমান গ্রাহক|\nedit ho raha hai — Bill number wahi rahega.|is being edited — the bill number stays the same.|সম্পাদনা চলছে — বিল নম্বর একই থাকবে।|\nre:^Bill Edit — (.+)$|Edit Bill — $1|বিল সম্পাদনা — $1|\nre:^Bill ([A-Z]{2,6}-[\\w-]+)$|Bill $1|বিল $1|\nBill no, customer, mobile||বিল নং, গ্রাহক, মোবাইল|\nPartial||আংশিক|आंशिक\nUnpaid||অপরিশোধিত|अवैतनिक\nReceive||আদায় করুন|वसूलें\nWA||WA|\nedited||সম্পাদিত|\nbills · Total||বিল · মোট|\n· Paid||· পরিশোধিত|\n· Due||· বাকি|\nKoi bill nahi mila.|No bills found.|কোনো বিল পাওয়া যায়নি।|\nPrint||প্রিন্ট|प्रिंट\nWhatsApp||WhatsApp|WhatsApp\nSearch item||আইটেম খুঁজুন|\nWholesaler||পাইকার|थोक विक्रेता\nAll wholesalers||সব পাইকার|सभी थोक विक्रेता\n+ Naya Item|+ New Item|+ নতুন আইটেম|+ नया आइटम\nUnit||একক|इकाई\nPurchase||ক্রয়|खरीद\nSale Rate||বিক্রয় দর|बिक्री दर\nStock||স্টক|स्टॉक\nNaya Item|New Item|নতুন আইটেম|नया आइटम\nEdit Item||আইটেম সম্পাদনা|आइटम संपादित करें\nItem Name *||আইটেমের নাম *|आइटम का नाम *\nCategory||বিভাগ|श्रेणी\nSale Rate (₹)||বিক্রয় দর (₹)|बिक्री दर (₹)\nPurchase Rate (₹)||ক্রয় দর (₹)|खरीद दर (₹)\n— munafa ke liye|— for profit calculation|— লাভ হিসাবের জন্য|\nStock Qty||স্টকের পরিমাণ|स्टॉक मात्रा\nHSN / SAC code||HSN / SAC কোড|HSN / SAC कोड\nHSN||HSN|\nLow Stock Warning||কম স্টকের সতর্কতা|कम स्टॉक चेतावनी\nGrocery / Dairy...||মুদি / ডেয়ারি...|\nKoi item nahi. \"+ Naya Item\" pe click karein.|No items yet. Click \"+ New Item\".|এখনও কোনো আইটেম নেই। \"+ নতুন আইটেম\"-এ ক্লিক করুন।|\nre:^(\\d+) items$|$1 items|$1টি আইটেম|\nre:^(\\d+) customers$|$1 customers|$1 জন গ্রাহক|\nre:^(\\d+) bills$|$1 bills|$1টি বিল|\npcs||পিস|\nkg||কেজি|\ngm||গ্রাম|\nltr||লিটার|\nml||মিলি|\npkt||প্যাকেট|\nbox||বক্স|\ndozen||ডজন|\n+ Naya Customer|+ New Customer|+ নতুন গ্রাহক|+ नया ग्राहक\nSearch customer (name/mobile)||গ্রাহক খুঁজুন (নাম/মোবাইল)|\nKoi customer nahi.|No customers found.|কোনো গ্রাহক নেই।|\nHistory||ইতিহাস|इतिहास\nNaya Customer|New Customer|নতুন গ্রাহক|नया ग्राहक\nEdit Customer||গ্রাহক সম্পাদনা|ग्राहक संपादित करें\nKoi bill nahi|No bills|কোনো বিল নেই|\nDue List — jinka paisa baaki hai|Due List — customers with pending payments|বাকির তালিকা — যাদের টাকা বাকি আছে|बकाया सूची — जिनका भुगतान बाकी है\nKoi due nahi 🎉|No dues 🎉|কোনো বাকি নেই 🎉|\nre:^Total Due: (.+)$|Total Due: $1|মোট বাকি: $1|\nWA Reminder||WA রিমাইন্ডার|WA रिमाइंडर\nThis Month||এই মাস|इस महीने\nLast Month||গত মাস|पिछला महीना\nExport CSV||CSV এক্সপোর্ট|CSV निर्यात\nTotal Sale||মোট বিক্রি|कुल बिक्री\nCollection||আদায়|वसूली\nMunafa (jin items ka purchase rate bhara)|Profit (items with purchase rate)|লাভ (যে আইটেমের ক্রয় দর দেওয়া আছে)|\nMunafa − Kharcha|Profit − Expenses|লাভ − খরচ|\nDay-wise||দিন অনুযায়ী|दिन के अनुसार\nTop Selling Items||সর্বাধিক বিক্রিত আইটেম|सबसे ज़्यादा बिकने वाले आइटम\nQty sold||বিক্রিত পরিমাণ|\nKoi data nahi|No data|কোনো তথ্য নেই|\nKoi item nahi|No items|কোনো আইটেম নেই|\nIs mahine|This month|এই মাস|\nAaj|Today|আজ|आज\nStaff / Employees||কর্মচারী|कर्मचारी\nEmployee ko sirf wahi kaam do jo uska hai. Login: Shop Code|Give each employee only the access they need. Login: Shop Code|প্রত্যেক কর্মচারীকে শুধু প্রয়োজনীয় অনুমতি দিন। লগইন: দোকান কোড|\n+ uska username + password.|+ their username + password.|+ তার ইউজারনেম + পাসওয়ার্ড।|\n+ Naya Staff|+ New Staff|+ নতুন কর্মচারী|+ नया कर्मचारी\nLoading…||লোড হচ্ছে…|\nRole||ভূমিকা|भूमिका\nPermissions||অনুমতি|अनुमतियाँ\nOwner / Admin||মালিক / অ্যাডমিন|मालिक / एडमिन\nOwner||মালিক|मालिक\nSab kuch|Everything|সবকিছু|सब कुछ\nKoi nahi|None|কিছু নেই|\nBand|Disabled|বন্ধ|बंद\nActive||সক্রিয়|सक्रिय\nNaya Staff|New Staff|নতুন কর্মচারী|नया कर्मचारी\nStaff Edit|Edit Staff|কর্মচারী সম্পাদনা|कर्मचारी संपादित करें\nNaam *|Name *|নাম *|नाम *\nUsername *||ইউজারনেম *|\nPassword * (min 6)||পাসওয়ার্ড * (কমপক্ষে ৬)|\nNaya password (khali = nahi badlega)|New password (leave blank to keep current)|নতুন পাসওয়ার্ড (ফাঁকা = অপরিবর্তিত)|\nKya kar sakta hai?|What can this user do?|এই ব্যবহারকারী কী করতে পারবে?|यह उपयोगकर्ता क्या कर सकता है?\nCashier||ক্যাশিয়ার|कैशियर\nManager||ম্যানেজার|मैनेजर\nSab hatao|Clear all|সব সরান|सब हटाएँ\nSettings, Staff aur Backup sirf Owner ke paas rehte hain.|Settings, Staff and Backup are available to the Owner only.|সেটিংস, কর্মচারী ও ব্যাকআপ শুধু মালিকের কাছে থাকে।|\nme har banda sirf apna hi hisab dekhta hai — Owner ka hisab staff ko aur staff ka hisab Owner ko nahi dikhta.|— each person sees only their own entries. The Owner's ledger is hidden from staff, and a staff member's ledger is hidden from the Owner.|— প্রত্যেকে শুধু নিজের হিসাব দেখে। মালিকের হিসাব কর্মচারী এবং কর্মচারীর হিসাব মালিক দেখে না।|\nActive (band karne par ye login nahi kar payega)|Active (if turned off, this user cannot login)|সক্রিয় (বন্ধ করলে এই ব্যবহারকারী লগইন করতে পারবে না)|\nStaff ban gaya|Staff created|কর্মচারী তৈরি হয়েছে|\nYe login details employee ko de dein:|Give these login details to the employee:|এই লগইন তথ্য কর্মচারীকে দিন:|\nShop Code:||দোকান কোড:|\nUsername:||ইউজারনেম:|\nPassword:||পাসওয়ার্ড:|\nCopy||কপি|\nNaya bill banana|Create new bills|নতুন বিল তৈরি|नए बिल बनाना\nBills list dekhna|View bills list|বিলের তালিকা দেখা|बिल सूची देखना\nBill edit karna|Edit bills|বিল সম্পাদনা|बिल संपादित करना\nBill delete karna|Delete bills|বিল মুছে ফেলা|बिल हटाना\nDue list + due paisa receive|Due list + receive due payments|বাকির তালিকা + বাকি আদায়|बकाया सूची + बकाया वसूलना\nCustomers dekhna / edit|View / edit customers|গ্রাহক দেখা / সম্পাদনা|ग्राहक देखना / संपादित करना\nItems / Stock dekhna / edit|View / edit items & stock|আইটেম ও স্টক দেখা / সম্পাদনা|आइटम व स्टॉक देखना / संपादित करना\nReports + dashboard ki sale/due dekhna|Reports + dashboard sales / dues|রিপোর্ট + ড্যাশবোর্ডের বিক্রি/বাকি|रिपोर्ट + डैशबोर्ड की बिक्री/बकाया\nLena Dena (apna private hisab)|Personal Ledger (own private account)|ব্যক্তিগত খাতা (নিজের গোপন হিসাব)|\nKharcha entry|Expense entry|খরচের এন্ট্রি|खर्च की प्रविष्टि\nPurchase / Wholesaler||ক্রয় / পাইকার|\nBill banana|Create bills|বিল তৈরি|\nBills dekhna|View bills|বিল দেখা|\nBill edit|Edit bills|বিল সম্পাদনা|बिल संपादित करना\nBill delete|Delete bills|বিল মোছা|बिल हटाना\nDue receive|Receive dues|বাকি আদায়|\nItems/Stock||আইটেম/স্টক|\nShop Settings||দোকানের সেটিংস|दुकान की सेटिंग्स\nShop Name||দোকানের নাম|दुकान का नाम\nEmail||ইমেইল|ईमेल\nCity / Pin||শহর / পিন|\nGST No.||GST নম্বর|GST नंबर\nDefault GST % for items||আইটেমের ডিফল্ট GST %|आइटम का डिफ़ॉल्ट GST %\nBill Prefix||বিলের প্রিফিক্স|बिल प्रीफ़िक्स\nPrint Size||প্রিন্টের সাইজ|प्रिंट साइज़\nThermal||থার্মাল|\nSave Settings||সেটিংস সংরক্ষণ|सेटिंग्स सहेजें\nSync||সিঙ্ক|सिंक\nSync Now||এখনই সিঙ্ক|अभी सिंक करें\nre:^Pending: (\\d+) records$|Pending: $1 records|অপেক্ষমাণ: $1টি রেকর্ড|\nBackup||ব্যাকআপ|बैकअप\nDownload Backup (JSON)||ব্যাকআপ ডাউনলোড (JSON)|\nRestore Backup||ব্যাকআপ রিস্টোর|बैकअप रिस्टोर\nHar hafte backup lekar pen drive me rakhein. Restore purane data me merge hota hai.|Take a backup every week and keep it on a pen drive. Restore merges with your existing data.|প্রতি সপ্তাহে ব্যাকআপ নিয়ে পেন ড্রাইভে রাখুন। রিস্টোর করলে আগের ডেটার সাথে মিশে যায়।|\nUltraAccounting Help||UltraAccounting সাহায্য|\nCall / WhatsApp:||ফোন / WhatsApp:|\nHow to use?||কীভাবে ব্যবহার করবেন?|कैसे इस्तेमाल करें?\n→ Add customer and items → Save||→ গ্রাহক ও আইটেম যোগ করুন → সংরক্ষণ করুন|→ ग्राहक व आइटम जोड़ें → सहेजें\nAfter the bill is created you get||বিল তৈরি হলে পাবেন|बिल बनने के बाद आपको मिलेगा\noptions||অপশন|विकल्प\n— set up your stock||— আপনার স্টক সেট করুন|— अपना स्टॉक सेट करें\n— record goods bought from wholesalers; stock updates automatically||— পাইকারের কাছ থেকে কেনা মাল লিখুন; স্টক নিজে থেকেই আপডেট হয়|— थोक विक्रेता से खरीदा माल दर्ज करें; स्टॉक अपने आप अपडेट होता है\n— see who still owes you||— কার কাছে টাকা বাকি দেখুন|— देखें किसका पैसा बाकी है\n— view daily / monthly sales and profit||— দৈনিক / মাসিক বিক্রি ও লাভ দেখুন|— रोज़ / मासिक बिक्री और मुनाफ़ा देखें\nWhat is Personal Ledger?||ব্যক্তিগত খাতা কী?|निजी खाता क्या है?\nYour own account,||আপনার নিজের হিসাব,|आपका अपना हिसाब,\nseparate||আলাদা|अलग\nfrom shop bills — friends, relatives, suppliers, staff. It has nothing to do with bills, GST or stock.||দোকানের বিল থেকে — বন্ধু, আত্মীয়, সরবরাহকারী, কর্মচারী। বিল, GST বা স্টকের সাথে এর কোনো সম্পর্ক নেই।|दुकान के बिलों से — दोस्त, रिश्तेदार, आपूर्तिकर्ता, कर्मचारी। बिल, GST या स्टॉक से इसका कोई संबंध नहीं।\n— you gave money or goods, so you will receive it back (To Receive)||— আপনি টাকা বা মাল দিয়েছেন, তাই ফেরত পাবেন (পাওনা)|— आपने पैसा या माल दिया, इसलिए वापस मिलेगा (लेना है)\n— you took money or goods, so you have to pay it back (To Pay)||— আপনি টাকা বা মাল নিয়েছেন, তাই ফেরত দিতে হবে (দেনা)|— आपने पैसा या माल लिया, इसलिए लौटाना है (देना है)\nThe balance is calculated automatically. You can send a WhatsApp reminder to anyone who owes you.||ব্যালেন্স নিজে থেকেই হিসাব হয়। যার কাছে পাবেন তাকে WhatsApp রিমাইন্ডার পাঠাতে পারেন।|बैलेंस अपने आप बनता है। जिससे पैसा लेना है उसे WhatsApp रिमाइंडर भेज सकते हैं।\nThe software works without internet. Your data stays safe on this device and syncs when you are online.||ইন্টারনেট ছাড়াও সফটওয়্যার চলে। ডেটা এই ডিভাইসে সুরক্ষিত থাকে এবং অনলাইন হলে সিঙ্ক হয়।|इंटरनेट के बिना भी सॉफ़्टवेयर चलता है। डेटा इस डिवाइस पर सुरक्षित रहता है और ऑनलाइन होने पर सिंक होता है।\nTotal Lena (milna hai)|Total To Receive|মোট পাওনা|कुल लेना है\nTotal Dena (dena hai)|Total To Pay|মোট দেনা|कुल देना है\nNet (aapko milega)|Net (you will receive)|নিট (আপনি পাবেন)|\nNet (aapko dena hai)|Net (you have to pay)|নিট (আপনাকে দিতে হবে)|\nParties||পার্টি|पार्टी\nNaam ya mobile|Name or mobile|নাম বা মোবাইল|\nDikhao|Show|দেখান|दिखाएँ\nLena|To Receive|পাওনা|लेना है\nDena|To Pay|দেনা|देना है\n+ Naya Party|+ New Party|+ নতুন পার্টি|+ नई पार्टी\nExcel||Excel|\nAakhri entry|Last entry|শেষ এন্ট্রি|आख़िरी प्रविष्टि\nKhata|Ledger|খাতা|खाता\nDiya|You Gave|দিয়েছি|दिया\nLiya|You Got|নিয়েছি|लिया\nParty||পার্টি|पार्टी\nSupplier||সরবরাহকারী|आपूर्तिकर्ता\nPersonal||ব্যক্তিগত|निजी\nOther||অন্যান্য|अन्य\nNaya Party|New Party|নতুন পার্টি|नई पार्टी\nParty Edit|Edit Party|পার্টি সম্পাদনা|पार्टी संपादित करें\njaise: rishtedaar, kirana supplier…|e.g. relative, grocery supplier…|যেমন: আত্মীয়, মুদি সরবরাহকারী…|\nBarabar ✔|Settled ✔|হিসাব সমান ✔|हिसाब बराबर ✔\nKoi party nahi.|No parties yet.|এখনও কোনো পার্টি নেই।|\nse shuru karein — jaise dost, supplier, staff.|to start — e.g. friend, supplier, staff.|দিয়ে শুরু করুন — যেমন বন্ধু, সরবরাহকারী, কর্মচারী।|\n+ Diya (maine diya)|+ You Gave|+ দিয়েছি|\n+ Liya (maine liya)|+ You Got|+ নিয়েছি|\nre:^(.+) — Diya \\(maine diya\\)$|$1 — You Gave|$1 — দিয়েছি|\nre:^(.+) — Liya \\(maine liya\\)$|$1 — You Got|$1 — নিয়েছি|\npaisa de diya → unse milna hai|money given → you will receive it back|টাকা দিয়েছি → ফেরত পাব|\npaisa le liya → unko dena hai|money taken → you have to return it|টাকা নিয়েছি → ফেরত দিতে হবে|\nParty delete|Delete party|পার্টি মুছুন|\nParty edit|Edit party|পার্টি সম্পাদনা|\nAbhi koi entry nahi. Upar se Diya / Liya daalein.|No entries yet. Add a You Gave / You Got entry above.|এখনও কোনো এন্ট্রি নেই। উপরে থেকে দিয়েছি / নিয়েছি যোগ করুন।|\nre:^₹ ([\\d,.]+) Lena$|₹ $1 To Receive|₹ $1 পাওনা|\nre:^₹ ([\\d,.]+) Dena$|₹ $1 To Pay|₹ $1 দেনা|\nre:^₹ ([\\d,.]+) To Pay$|₹ $1 To Pay|₹ $1 দিতে হবে|\nre:^₹ ([\\d,.]+) Advance$|₹ $1 Advance|₹ $1 অগ্রিম|\nre:^₹ ([\\d,.]+) Adv\\.$|₹ $1 Adv.|₹ $1 অগ্রিম|\nSettled ✔||মিটে গেছে ✔|हिसाब बराबर ✔\n+ Kharcha|+ Add Expense|+ খরচ যোগ|+ खर्च जोड़ें\nCategory-wise||বিভাগ অনুযায়ী|श्रेणी के अनुसार\nTotal Kharcha|Total Expenses|মোট খরচ|कुल खर्च\nEntries||এন্ট্রি|प्रविष्टियाँ\nNaya Kharcha|New Expense|নতুন খরচ|नया खर्च\nKharcha Edit|Edit Expense|খরচ সম্পাদনা|खर्च संपादित करें\nIs period me koi kharcha nahi.|No expenses in this period.|এই সময়ে কোনো খরচ নেই।|\nDukan Kiraya|Shop Rent|দোকান ভাড়া|दुकान का किराया\nSalary / Mazdoori|Salary / Wages|বেতন / মজুরি|वेतन / मज़दूरी\nBijli / Paani|Electricity / Water|বিদ্যুৎ / জল|बिजली / पानी\nTransport / Bhada|Transport / Freight|পরিবহন / ভাড়া|परिवहन / भाड़ा\nChai-Nashta|Tea & Snacks|চা-নাস্তা|चाय-नाश्ता\nMaal Kharid|Goods Purchase|মাল কেনা|माल की खरीद\nRepair||মেরামত|मरम्मत\nMobile / Internet||মোবাইল / ইন্টারনেট|मोबाइल / इंटरनेट\nPurchases this month||এই মাসের ক্রয়|इस महीने की खरीद\nTotal payable to wholesalers||পাইকারদের মোট দেয়|थोक विक्रेताओं को कुल देय\nWholesalers||পাইকার|थोक विक्रेता\n+ New Purchase (Stock In)||+ নতুন ক্রয় (স্টক ইন)|\n+ New Purchase||+ নতুন ক্রয়|+ नई खरीद\n+ New Wholesaler||+ নতুন পাইকার|+ नया थोक विक्रेता\nNew Purchase||নতুন ক্রয়|\nNew Wholesaler||নতুন পাইকার|नया थोक विक्रेता\nEdit Wholesaler||পাইকার সম্পাদনা|\nRecent Purchases||সাম্প্রতিক ক্রয়|हाल की खरीद\nNo wholesaler yet. Click||এখনও কোনো পাইকার নেই। ক্লিক করুন|\nor||অথবা|\nNo purchases yet.||এখনও কোনো ক্রয় নেই।|\nTotal Purchased||মোট ক্রয়|कुल खरीद\nLedger||লেজার|खाता\n+ Purchase||+ ক্রয়|\nPay||পরিশোধ|भुगतान\nNo.||নং|\nCurrent balance:||বর্তমান ব্যালেন্স:|\nPay Wholesaler||পাইকারকে পরিশোধ|थोक विक्रेता को भुगतान\nre:^Pay (.+)$|Pay $1|$1-কে পরিশোধ|\nSave Payment||পেমেন্ট সংরক্ষণ|\nItems supplied||সরবরাহকৃত আইটেম|आपूर्ति किए आइटम\nTotal Qty||মোট পরিমাণ|\nLast Rate||শেষ দর|\nParticulars||বিবরণ|विवरण\nPurchase Rate||ক্রয় দর|\nDelete wholesaler||পাইকার মুছুন|\nWholesaler *||পাইকার *|\n— Select —||— নির্বাচন করুন —|\n+ New wholesaler…||+ নতুন পাইকার…|\nNew wholesaler name *||নতুন পাইকারের নাম *|\nPurchase Date||ক্রয়ের তারিখ|\nWholesaler Bill No.||পাইকারের বিল নং|\nItems received||প্রাপ্ত আইটেম|\nType item name — pick existing or press Enter to add a NEW item||আইটেমের নাম লিখুন — বিদ্যমান বেছে নিন বা Enter চেপে নতুন আইটেম যোগ করুন|\nNo items yet. Search above to add stock.||এখনও আইটেম নেই। স্টক যোগ করতে উপরে খুঁজুন।|\nNEW||নতুন|\nPaid now (₹)||এখন পরিশোধ (₹)|\nPurchase Total||ক্রয় মোট|\nDue to wholesaler||পাইকারকে বাকি|\nSave Purchase||ক্রয় সংরক্ষণ|\nUpdate Purchase||ক্রয় আপডেট|\nPrevious balance with this wholesaler:||এই পাইকারের সাথে আগের ব্যালেন্স:|\nEditing purchase||ক্রয় সম্পাদনা চলছে|\n— stock will be corrected automatically.||— স্টক নিজে থেকেই ঠিক হবে।|\nre:^\\+ Add “(.+)” as NEW item$|+ Add “$1” as NEW item|+ “$1” নতুন আইটেম হিসেবে যোগ করুন|\nWelcome to UltraAccounting||UltraAccounting-এ স্বাগতম|UltraAccounting में आपका स्वागत है\nPehli baar setup — apni dukan ki details bharein.|First-time setup — enter your shop details.|প্রথমবার সেটআপ — আপনার দোকানের তথ্য দিন।|पहली बार सेटअप — अपनी दुकान की जानकारी भरें।\nShop Name *||দোকানের নাম *|दुकान का नाम *\nOwner Name||মালিকের নাম|मालिक का नाम\nMobile *||মোবাইল *|मोबाइल *\nAddress *||ঠিকানা *|पता *\nCity / Pincode||শহর / পিনকোড|\nShop Type||দোকানের ধরন|\nKirana / Grocery||মুদি / গ্রোসারি|\nMedical / Pharmacy||মেডিকেল / ফার্মেসি|\nGeneral Store||জেনারেল স্টোর|\nHardware||হার্ডওয়্যার|\nMobile / Electronics||মোবাইল / ইলেকট্রনিক্স|\nGarments / Cloth||পোশাক / কাপড়|\nStationery||স্টেশনারি|\nGST No. (optional)||GST নম্বর (ঐচ্ছিক)|GST नंबर (वैकल्पिक)\nA4 (Full page)||A4 (পুরো পাতা)|\nA5 (Half page)||A5 (আধা পাতা)|\nThermal 80mm||থার্মাল ৮০মিমি|\nSave & Continue||সংরক্ষণ করে এগিয়ে যান|सहेजें और आगे बढ़ें\nGST number optional hai. Agar aap GST bill banate ho to bharein.|GST number is optional. Fill it in if you issue GST invoices.|GST নম্বর ঐচ্ছিক। GST ইনভয়েস দিলে পূরণ করুন।|\nAll-in-One Business Billing & Accounting||অল-ইন-ওয়ান বিজনেস বিলিং ও অ্যাকাউন্টিং|\nCreate bills, track dues and view reports — works with or without internet.||বিল তৈরি করুন, বাকি ট্র্যাক করুন, রিপোর্ট দেখুন — ইন্টারনেট থাকুক বা না থাকুক।|\nFast billing + Print + WhatsApp||দ্রুত বিলিং + প্রিন্ট + WhatsApp|\nDue list & customer ledger||বাকির তালিকা ও গ্রাহকের খাতা|\nWorks offline, syncs when online||অফলাইনে চলে, অনলাইনে সিঙ্ক হয়|\nSoftware / Help — contact UltraAccounting||সফটওয়্যার / সাহায্যের জন্য যোগাযোগ — UltraAccounting|सॉफ़्टवेयर / सहायता के लिए संपर्क करें — UltraAccounting\nHelp:||সাহায্য:|\nPowered by||চালিত:|\nLogin karke hi sync hoga|Sync works only after login|লগইনের পর সিঙ্ক হবে|\nLogin ke baad hi sync hoga|Sync works only after login|লগইনের পর সিঙ্ক হবে|\nInternet nahi hai|No internet connection|ইন্টারনেট নেই|\nSession khatam ya shop block hai — dobara login karein|Session expired or shop is blocked — please login again|সেশন শেষ বা দোকান ব্লক — আবার লগইন করুন|\nSab fields bharein|Please fill all fields|সব ঘর পূরণ করুন|\nIs browser me doosri shop ka unsynced data hai. Pehle us shop me login karke Sync karein.|This browser has unsynced data of another shop. Login to that shop and Sync first.|এই ব্রাউজারে অন্য দোকানের সিঙ্ক না হওয়া ডেটা আছে। আগে সেই দোকানে লগইন করে সিঙ্ক করুন।|\nShop ka setup abhi pura nahi hua. Pehle owner ko login karke setup karne dein (internet chahiye).|Shop setup is not complete yet. Ask the owner to login and finish the setup first (internet required).|দোকানের সেটআপ এখনও সম্পূর্ণ হয়নি। আগে মালিককে লগইন করে সেটআপ করতে বলুন (ইন্টারনেট লাগবে)।|\nNetwork error. Internet check karein.|Network error. Please check your internet.|নেটওয়ার্ক সমস্যা। ইন্টারনেট পরীক্ষা করুন।|\nData la rahe hain…|Loading data…|ডেটা আনা হচ্ছে…|\nShop name zaroori hai|Shop name is required|দোকানের নাম আবশ্যক|\nSahi 10-digit mobile daalein|Enter a valid 10-digit mobile number|সঠিক ১০ অঙ্কের মোবাইল নম্বর দিন|\nAddress zaroori hai|Address is required|ঠিকানা আবশ্যক|\nSetup complete! 🎉||সেটআপ সম্পূর্ণ! 🎉|\nAapko is page ki permission nahi hai|You do not have permission for this page|এই পাতার অনুমতি আপনার নেই|\nBill nahi mila|Bill not found|বিল পাওয়া যায়নি|\nAapko bill edit karne ki permission nahi hai|You do not have permission to edit bills|বিল সম্পাদনার অনুমতি আপনার নেই|\nCustomer ka naam likhein|Enter the customer name|গ্রাহকের নাম লিখুন|\nKam se kam ek item add karein|Add at least one item|কমপক্ষে একটি আইটেম যোগ করুন|\nHar item ki quantity 0 se zyada honi chahiye|Every item quantity must be greater than 0|প্রতিটি আইটেমের পরিমাণ ০-এর বেশি হতে হবে|\nBill date chunein|Select the bill date|বিলের তারিখ বাছুন|\nYe bill ab maujood nahi hai|This bill no longer exists|এই বিলটি আর নেই|\nPaid amount naye total se zyada hai — Paid kam karein|Paid amount is more than the new total — reduce Paid|পরিশোধ নতুন মোটের চেয়ে বেশি — পরিশোধ কমান|\nPaid amount galat hai|Paid amount is invalid|পরিশোধের পরিমাণ ভুল|\nre:^Bill update ho gaya: (.+)$|Bill updated: $1|বিল আপডেট হয়েছে: $1|\nre:^Bill save ho gaya: (.+)$|Bill saved: $1|বিল সংরক্ষিত হয়েছে: $1|\nYe item already added hai|This item is already added|এই আইটেম আগেই যোগ করা হয়েছে|\nNaya item add kiya. Rate daalein.|New item added. Enter the rate.|নতুন আইটেম যোগ হয়েছে। দর দিন।|\nPermission nahi hai|You do not have permission|অনুমতি নেই|\nGalat amount|Invalid amount|ভুল পরিমাণ|\nDeleted||মুছে ফেলা হয়েছে|\nName zaroori hai|Name is required|নাম আবশ্যক|\nItem saved||আইটেম সংরক্ষিত|\nItem deleted||আইটেম মুছে ফেলা হয়েছে|\nCustomer saved||গ্রাহক সংরক্ষিত|\nSettings saved||সেটিংস সংরক্ষিত|\nBackup downloaded||ব্যাকআপ ডাউনলোড হয়েছে|\nMobile number nahi hai|Mobile number is missing|মোবাইল নম্বর নেই|\nCustomer ka mobile nahi hai|Customer mobile number is missing|গ্রাহকের মোবাইল নম্বর নেই|\nAmount 0 se zyada daalein|Enter an amount greater than 0|০-এর বেশি পরিমাণ দিন|\nEntry save ho gayi ✔|Entry saved ✔|এন্ট্রি সংরক্ষিত ✔|\nParty save ho gaya|Party saved|পার্টি সংরক্ষিত|\nNaam likhein|Enter the name|নাম লিখুন|\nParty delete ho gayi|Party deleted|পার্টি মুছে ফেলা হয়েছে|\nAmount daalein|Enter the amount|পরিমাণ দিন|\nKharcha save ho gaya ✔|Expense saved ✔|খরচ সংরক্ষিত ✔|\nStaff save ho gaya ✔|Staff saved ✔|কর্মচারী সংরক্ষিত ✔|\nPassword daalein|Enter a password|পাসওয়ার্ড দিন|\nStaff delete ho gaya|Staff deleted|কর্মচারী মুছে ফেলা হয়েছে|\nCopy ho gaya|Copied|কপি হয়েছে|\nInternet chahiye — staff online hi manage hota hai|Internet is required — staff can only be managed online|ইন্টারনেট লাগবে — কর্মচারী শুধু অনলাইনে পরিচালনা করা যায়|\nYe UltraAccounting ka backup nahi hai|This is not an UltraAccounting backup|এটি UltraAccounting-এর ব্যাকআপ নয়|\nre:^Restore fail: (.+)$|Restore failed: $1|রিস্টোর ব্যর্থ: $1|\nre:^(\\d+) records restore hue ✔$|$1 records restored ✔|$1টি রেকর্ড রিস্টোর হয়েছে ✔|\nre:^Ye entry \\((.+)\\) delete karein\\?$|Delete this entry ($1)?|এই এন্ট্রি ($1) মুছবেন?|\nre:^(.+) aur uski saari entries delete karein\\?$|Delete $1 and all its entries?|$1 এবং তার সব এন্ট্রি মুছবেন?|\nYe kharcha delete karein?|Delete this expense?|এই খরচ মুছবেন?|\nBackup restore karein? Maujooda data me merge hoga (purana data delete nahi hoga).|Restore this backup? It will be merged with the existing data (nothing is deleted).|ব্যাকআপ রিস্টোর করবেন? বিদ্যমান ডেটার সাথে মিশে যাবে (কিছু মোছা হবে না)।|\nre:^(.+) \\((.+)\\) ko delete karein\\? Uske purane bills safe rahenge\\.$|Delete $1 ($2)? Their old bills stay safe.|$1 ($2) মুছবেন? তার পুরনো বিল সুরক্ষিত থাকবে।|\nAmount received:||প্রাপ্ত পরিমাণ:|\nReason (required):||কারণ (আবশ্যক):|\nSirf shop admin ye kar sakta hai|Only the shop admin can do this|এটি শুধু দোকানের অ্যাডমিন করতে পারেন|\nUsername ya password galat hai|Username or password is wrong|ইউজারনেম বা পাসওয়ার্ড ভুল|\nGalat username ya password|Wrong username or password|ইউজারনেম বা পাসওয়ার্ড ভুল|\nShop code galat hai ya shop inactive hai|Shop code is wrong or the shop is inactive|দোকান কোড ভুল অথবা দোকান নিষ্ক্রিয়|\nShop code, username aur password zaroori hai|Shop code, username and password are required|দোকান কোড, ইউজারনেম ও পাসওয়ার্ড আবশ্যক|\nNaam zaroori hai|Name is required|নাম আবশ্যক|\nPassword kam se kam 6 character|Password must be at least 6 characters|পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে|\nUsername 3-20 letters/numbers ka ho (spaces nahi)|Username must be 3-20 letters/numbers (no spaces)|ইউজারনেম ৩-২০ অক্ষর/সংখ্যার হতে হবে (ফাঁকা নয়)|\nYe username pehle se hai|This username already exists|এই ইউজারনেম আগে থেকেই আছে|\nStaff nahi mila|Staff not found|কর্মচারী পাওয়া যায়নি|\nAdmin ko yahan se nahi badal sakte|The admin cannot be changed from here|অ্যাডমিনকে এখান থেকে বদলানো যায় না|\nre:^Bill (.+) — Due (.+)$|Bill $1 — Due $2|বিল $1 — বাকি $2|\nre:^Delete bill (.+)\\?$|Delete bill $1?|বিল $1 মুছবেন?|\nre:^Delete item (.+)\\?$|Delete item $1?|আইটেম $1 মুছবেন?|\nre:^Delete wholesaler (.+)\\?$|Delete wholesaler $1?|পাইকার $1 মুছবেন?|\nre:^Delete purchase (.+)\\? Stock added by it will be removed\\.$|Delete purchase $1? Stock added by it will be removed.|ক্রয় $1 মুছবেন? এর মাধ্যমে যোগ হওয়া স্টক কমে যাবে।|\nDelete this payment entry?||এই পেমেন্ট এন্ট্রি মুছবেন?|\nSelect a wholesaler||পাইকার বাছুন|\nEnter new wholesaler name||নতুন পাইকারের নাম লিখুন|\nEnter wholesaler name||পাইকারের নাম লিখুন|\nAdd at least one item||কমপক্ষে একটি আইটেম যোগ করুন|\nEvery item needs a name||প্রতিটি আইটেমের নাম লাগবে|\nQuantity must be greater than 0||পরিমাণ ০-এর বেশি হতে হবে|\nSelect date||তারিখ বাছুন|\nPaid amount cannot be more than total||পরিশোধ মোটের চেয়ে বেশি হতে পারে না|\nre:^Purchase updated: (.+)$|Purchase updated: $1|ক্রয় আপডেট হয়েছে: $1|\nre:^Purchase saved — stock updated: (.+)$|Purchase saved — stock updated: $1|ক্রয় সংরক্ষিত — স্টক আপডেট হয়েছে: $1|\nPurchase deleted||ক্রয় মুছে ফেলা হয়েছে|\nWholesaler saved||পাইকার সংরক্ষিত|\nWholesaler deleted||পাইকার মুছে ফেলা হয়েছে|\nPayment saved||পেমেন্ট সংরক্ষিত|\nEnter amount||পরিমাণ দিন|\nItem already added||আইটেম আগেই যোগ করা হয়েছে|\nThis wholesaler has purchases. Delete those first.||এই পাইকারের ক্রয় আছে। আগে সেগুলো মুছুন।|\nSynced.||সিঙ্ক হয়েছে।|\nre:^Synced\\. (\\d+) records received\\.$|Synced. $1 records received.|সিঙ্ক হয়েছে। $1টি রেকর্ড এসেছে।|\nre:^₹ ([\\d,.]+) received$|₹ $1 received|₹ $1 আদায় হয়েছে|\nWelcome||স্বাগতম|\nPurchase (Import)||ক্রয় (আমদানি)|खरीद (आयात)\nPersonal Hisaab|Personal Ledger|ব্যক্তিগত খাতা|निजी खाता\nToday Sale||আজকের বিক্রি|आज की बिक्री\nToday Due||আজকের বাকি|आज का बकाया\n7 Days Sale||গত ৭ দিনের বিক্রি|पिछले 7 दिन की बिक्री\nCounter Report||কাউন্টার রিপোর্ট|काउंटर रिपोर्ट\nReports for CA||CA-এর জন্য রিপোর্ট|CA के लिए रिपोर्ट\nCash collected||নগদ আদায়|नकद वसूली\nUPI / Card / Bank collected||UPI / কার্ড / ব্যাংকে আদায়|UPI / कार्ड / बैंक से वसूली\nCash still with staff (to hand over)||কর্মচারীর কাছে থাকা নগদ (জমা দিতে হবে)|कर्मचारी के पास नकद (जमा करना है)\nPending due on these bills||এই বিলগুলোর বাকি|इन बिलों का बकाया\nStaff-wise report||কর্মচারী অনুযায়ী রিপোর্ট|कर्मचारी के अनुसार रिपोर्ट\nSale||বিক্রি|बिक्री\nUPI/Card||UPI/কার্ড|UPI/कार्ड\nPending due||বাকি (পেন্ডিং)|बकाया (पेंडिंग)\nCash to hand over||জমা দেওয়ার নগদ|जमा करने वाला नकद\nReceive cash||নগদ গ্রহণ|नकद लें\n+ Receive cash||+ নগদ গ্রহণ|+ नकद लें\nCash received from staff||কর্মচারীর কাছ থেকে প্রাপ্ত নগদ|कर्मचारी से प्राप्त नकद\nReceive cash from staff||কর্মচারীর কাছ থেকে নগদ গ্রহণ|कर्मचारी से नकद लें\nOnly pending due||শুধু বাকি থাকা বিল|सिर्फ़ बकाया बिल\nReports for your CA||আপনার CA-এর জন্য রিপোর্ট|आपके CA के लिए रिपोर्ट\nSales Register (GST invoice-wise)||বিক্রয় রেজিস্টার (GST ইনভয়েস অনুযায়ী)|बिक्री रजिस्टर (GST इनवॉइस अनुसार)\nHSN-wise GST Summary||HSN অনুযায়ী GST সারাংশ|HSN अनुसार GST सार\nPurchase Register (from wholesalers)||ক্রয় রেজিস্টার (পাইকার থেকে)|खरीद रजिस्टर (थोक विक्रेताओं से)\nCustomer Dues (outstanding)||গ্রাহকের বাকি|ग्राहकों का बकाया\nStaff / Counter-wise Summary||কর্মচারী / কাউন্টার অনুযায়ী সারাংশ|कर्मचारी / काउंटर अनुसार सार\nSend on WhatsApp||WhatsApp-এ পাঠান|WhatsApp पर भेजें\nSend WhatsApp message||WhatsApp বার্তা পাঠান|WhatsApp संदेश भेजें\nWelcome to UltraAccounting||UltraAccounting-এ স্বাগতম|UltraAccounting में आपका स्वागत है\nWholesaler se maal kharidne ka hisaab (Dukan ka Lena-Dena).|Record of goods bought from wholesalers (shop payables).|পাইকারের কাছ থেকে মাল কেনার হিসাব (দোকানের দেনা)।|थोक विक्रेता से खरीदे माल का हिसाब (दुकान की देनदारी)।\n+ Naya Wholesaler|+ New Wholesaler|+ নতুন পাইকার|+ नया थोक विक्रेता\nNaya Wholesaler|New Wholesaler|নতুন পাইকার|नया थोक विक्रेता\nTotal Wholesaler Dena (Payable)|Total Payable to Wholesalers|পাইকারদের মোট দেনা|थोक विक्रेताओं को कुल देय\nKoi wholesaler nahi. \"+ Naya Wholesaler\" pe click karein.|No wholesalers yet. Click \"+ New Wholesaler\".|এখনও কোনো পাইকার নেই। \"+ নতুন পাইকার\"-এ ক্লিক করুন।|अभी कोई थोक विक्रेता नहीं। \"+ नया थोक विक्रेता\" पर क्लिक करें।\nKoi purchase entry nahi.|No purchase entries yet.|এখনও কোনো ক্রয়ের এন্ট্রি নেই।|अभी कोई खरीद प्रविष्टि नहीं।\nMunafa (items cost ke saath)|Profit (items with cost price)|লাভ (ক্রয় মূল্য সহ আইটেম)|मुनाफ़ा (लागत मूल्य वाले आइटम)\nPurana data (Bills, Customers, Kharcha) delete karein taaki space khaali ho.|Delete old data (bills, customers, expenses) to free up space.|পুরনো ডেটা (বিল, গ্রাহক, খরচ) মুছে জায়গা খালি করুন।|पुराना डेटा (बिल, ग्राहक, खर्च) हटाकर जगह खाली करें।\nTotal Due||মোট বাকি|कुल बकाया";
+let LANG2='';try{LANG2=localStorage.getItem('ua_lang2')||''}catch(e){}
+const I18N={d:Object.create(null),p:[]};
+I18N_RAW.split('\n').forEach(l=>{if(!l)return;const a=l.split('|');if(a.length<3)return;
+ if(a[0].startsWith('re:')){try{I18N.p.push([new RegExp(a[0].slice(3)),a[1],a[2],a[3]||''])}catch(e){}}
+ else I18N.d[a[0]]={en:a[1]||a[0],bn:a[2]||a[1]||a[0],hi:a[3]||''}});
+function trInfo(core){const h=I18N.d[core];if(h)return h;
+ for(const x of I18N.p){if(x[0].test(core))return{en:core.replace(x[0],x[1]),bn:core.replace(x[0],x[2]),hi:x[3]?core.replace(x[0],x[3]):'',pat:true}}return null}
+function trFull(v){const m=v.match(/^(\s*)([\s\S]*?)(\s*)$/),core=m[2];if(!core||!/[A-Za-z]/.test(core))return null;
+ let info=trInfo(core),lead='';
+ if(!info){const mm=core.match(/^([^A-Za-z0-9]+)([\s\S]+)$/);if(mm){info=trInfo(mm[2]);lead=mm[1]}}
+ return info?{pre:m[1]+lead,post:m[3],info}:null}
+const SKIP_SEL='#printArea,script,style,.l2,textarea,input,#bootErr,#toast';
+const DECO_TAGS={BUTTON:1,LABEL:1,TH:1,H1:1,H2:1,H3:1,H4:1,LEGEND:1};
+function canDeco(p){if(p.closest('td,.chip,.bdg,#toast,option'))return false;return !!DECO_TAGS[p.nodeName]||p.matches('.stat span,.em,.hint,.tabs small')}
+function trText(t){
+ const p=t.parentNode;if(!p||p.nodeType!==1||p.closest(SKIP_SEL))return;
+ const v=t.nodeValue;if(!v||!/[A-Za-z]/.test(v))return;
+ const r=trFull(v);if(!r)return;
+ if(p.closest('td')&&!r.info.pat&&!p.classList.contains('bdg')&&!p.classList.contains('muted'))return; // table data cells: sirf patterns
+ const en=r.pre+r.info.en+r.post;
+ if(en!==v){if(p.nodeName==='OPTION'&&!p.hasAttribute('value'))p.setAttribute('value',v.trim());t.nodeValue=en}
+ if(LANG2&&canDeco(p)){const l2=r.info[LANG2];
+  if(l2&&l2!==r.info.en){const nx=t.nextSibling;
+   if(!(nx&&nx.nodeType===1&&nx.classList.contains('l2'))){const sp=document.createElement('span');sp.className='l2';sp.textContent=l2;p.insertBefore(sp,t.nextSibling)}}}}
+function trAttr(e){['placeholder','title'].forEach(a=>{const v=e.getAttribute(a);if(v){const r=trFull(v);if(r){const q=r.pre+r.info.en+r.post;if(q!==v)e.setAttribute(a,q)}}})}
+function trNode(n){
+ if(n.nodeType===3){trText(n);return}if(n.nodeType!==1||n.closest(SKIP_SEL))return;
+ const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT),arr=[];let t;while(t=w.nextNode())arr.push(t);arr.forEach(trText);
+ if(n.matches&&n.matches('[placeholder],[title]'))trAttr(n);if(n.querySelectorAll)n.querySelectorAll('[placeholder],[title]').forEach(trAttr)}
+new MutationObserver(ms=>{ms.forEach(m=>{if(m.type==='childList')m.addedNodes.forEach(trNode);else if(m.type==='characterData')trText(m.target)})})
+ .observe(document.documentElement,{childList:true,subtree:true,characterData:true});
+{const _cf=window.confirm.bind(window),_pr=window.prompt.bind(window),tm=m=>String(m).split('\n').map(x=>{const r=trFull(x);return r?r.pre+r.info.en+r.post:x}).join('\n');
+ window.confirm=m=>_cf(tm(m));window.prompt=(m,d)=>_pr(tm(m),d)}
+function setLang2(v){LANG2=v||'';try{localStorage.setItem('ua_lang2',LANG2)}catch(e){}closeModal();
+ if(TOKEN&&ME){if(S&&S.setupDone)render();else renderWizard()}else renderLogin()}
+const langSel=()=>`<select id="langsel" class="langsel" onchange="setLang2(this.value)" title="Second language"><option value=""${LANG2===''?' selected':''}>English</option><option value="bn"${LANG2==='bn'?' selected':''}>English + বাংলা</option><option value="hi"${LANG2==='hi'?' selected':''}>English + हिन्दी</option></select>`;
+
 const API_BASE=(location.protocol==='file:')?'':location.origin;
-const STORES=['settings','items','customers','bills','payments','users','audit','meta','parties','entries','expenses','suppliers','purchases'];
-const SYNCED=['settings','items','customers','bills','payments','users','audit','parties','entries','expenses','suppliers','purchases'];
-let idb=null,D={settings:[],items:[],customers:[],bills:[],payments:[],users:[],audit:[],meta:[],parties:[],entries:[],expenses:[],suppliers:[],purchases:[]};
+const STORES=['settings','items','customers','bills','payments','users','audit','meta','parties','entries','expenses','suppliers','purchases','handovers'];
+const SYNCED=['settings','items','customers','bills','payments','users','audit','parties','entries','expenses','suppliers','purchases','handovers'];
+let idb=null,D={settings:[],items:[],customers:[],bills:[],payments:[],users:[],audit:[],meta:[],parties:[],entries:[],expenses:[],suppliers:[],purchases:[],handovers:[]};
 let S={},M={},ME=null,TOKEN=null,SHOP=null,page='dashboard',F=null,syncing=false,syncMsg='',syncTimer=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -218,7 +269,7 @@ function toast(m,bad){const d=document.createElement('div');d.textContent=m;if(b
 function modal(html,wide){closeModal();const d=document.createElement('div');d.className='modalbg';d.id='mdl';d.innerHTML=`<div class="modal${wide?' wide':''}">${html}</div>`;document.body.appendChild(d)}
 function closeModal(){const m=$('mdl');if(m)m.remove()}
 
-function openDB(){return new Promise(res=>{try{const r=indexedDB.open('ultra_accounting',4);r.onupgradeneeded=()=>{STORES.forEach(s=>{if(!r.result.objectStoreNames.contains(s))r.result.createObjectStore(s,{keyPath:'id'})})};r.onsuccess=()=>{r.result.onversionchange=()=>{try{r.result.close()}catch(e){}};res(r.result)};r.onerror=()=>res(null);r.onblocked=()=>{try{__bootFail('Doosra UltraAccounting tab/app khula hai — use band karke yahan dobara try karein.')}catch(e){}}}catch(e){res(null)}})}
+function openDB(){return new Promise(res=>{try{const r=indexedDB.open('ultra_accounting',5);r.onupgradeneeded=()=>{STORES.forEach(s=>{if(!r.result.objectStoreNames.contains(s))r.result.createObjectStore(s,{keyPath:'id'})})};r.onsuccess=()=>{r.result.onversionchange=()=>{try{r.result.close()}catch(e){}};res(r.result)};r.onerror=()=>res(null);r.onblocked=()=>{try{__bootFail('Doosra UltraAccounting tab/app khula hai — use band karke yahan dobara try karein.')}catch(e){}}}catch(e){res(null)}})}
 function idbAll(s){return new Promise(res=>{if(!idb)return res([]);try{const q=idb.transaction(s).objectStore(s).getAll();q.onsuccess=()=>res(q.result);q.onerror=()=>res([])}catch(e){res([])}})}
 function idbPut(s,o){if(!idb)return;try{idb.transaction(s,'readwrite').objectStore(s).put(o)}catch(e){}}
 function idbClear(s){return new Promise(res=>{if(!idb)return res();try{const t=idb.transaction(s,'readwrite');t.objectStore(s).clear();t.oncomplete=res;t.onerror=res}catch(e){res()}})}
@@ -272,13 +323,13 @@ function logoHTML(){return `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/20
 function renderLogin(){window.__bootOK=true;$('app').innerHTML=`<div class="login">
  <div class="hero">${logoHTML()}<h2>UltraAccounting</h2><p>All-in-One Business Billing &amp; Accounting — bill banao, due track karo, report dekho. Internet ho ya na ho.</p>
   <ul><li><i>🧾</i>Fast billing + Print + WhatsApp</li><li><i>💰</i>Due list &amp; customer ledger</li><li><i>☁️</i>Offline chalega, online sync hoga</li></ul></div>
- <div class="formside"><div class="box"><h1>Welcome 👋</h1><p class="sub">Apni dukaan me login karein</p>
- <label>Shop Code<input id="lc" placeholder="SHARMA001" style="text-transform:uppercase" autocomplete="off"></label>
- <label>Username<input id="lu" placeholder="admin" autocomplete="username"></label>
+ <div class="formside"><div class="langbar">${langSel()}</div><div class="box"><h1>Welcome 👋</h1><p class="sub">Apni dukaan me login karein</p>
+ <label>Shop Code<input id="lc" placeholder="SHARMA001" style="text-transform:uppercase" autocomplete="off" value="${esc((()=>{try{return localStorage.getItem('ua_lastcode')||''}catch(e){return''}})())}"></label>
+ <label>Username<input id="lu" placeholder="admin" autocomplete="username" value="${esc((()=>{try{return localStorage.getItem('ua_lastuser')||''}catch(e){return''}})())}"></label>
  <label>Password<input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></label>
  <div class="err" id="le"></div><button id="lbtn" onclick="doLogin()">Login</button>
  <div class="foot" style="margin-top:18px;font-weight:bold;color:var(--navy)">Software Help: <a href="tel:${HELP_PHONE}" style="text-decoration:none;color:var(--cyan)">${HELP_PHONE}</a></div>
- </div></div></div>`;setTimeout(()=>{const e=$('lc');if(e)e.focus()},50)}
+ </div></div></div>`;setTimeout(()=>{const e=$($('lc').value?'lp':'lc');if(e)e.focus()},50)}
 
 async function doLogin(){
  const code=$('lc').value.trim().toUpperCase(),username=$('lu').value.trim().toLowerCase(),password=$('lp').value;
@@ -290,18 +341,18 @@ async function doLogin(){
   const j=await r.json();
   if(!r.ok){$('le').textContent=j.error||'Login fail';btn.disabled=false;btn.textContent='Login';return}
   TOKEN=j.token;SHOP=j.shop;ME=j.user;
-  try{sessionStorage.setItem('ua_token',TOKEN);sessionStorage.setItem('ua_shop',JSON.stringify(SHOP));sessionStorage.setItem('ua_user',JSON.stringify(ME))}catch(e){}
+  saveSession();try{localStorage.setItem('ua_lastcode',code);localStorage.setItem('ua_lastuser',username)}catch(e){}
   for(const s of STORES)D[s]=await idbAll(s);
   S=D.settings[0]||{};M=D.meta[0]||{id:'meta',counters:{},dirty:{},lastPull:0,seeded:false,lastSync:0};
   if(M.shop_id&&M.shop_id!==SHOP.id){
-   if(pending()>0){TOKEN=null;ME=null;SHOP=null;try{sessionStorage.clear()}catch(e){}$('le').textContent='Is browser me doosri shop ka unsynced data hai. Pehle us shop me login karke Sync karein.';btn.disabled=false;btn.textContent='Login';return}
+   if(pending()>0){TOKEN=null;ME=null;SHOP=null;clearSession();$('le').textContent='Is browser me doosri shop ka unsynced data hai. Pehle us shop me login karke Sync karein.';btn.disabled=false;btn.textContent='Login';return}
    for(const st of STORES){await idbClear(st);D[st]=[]}
    S={};M={id:'meta',counters:{},dirty:{},lastPull:0,seeded:false,lastSync:0};
   }
   M.shop_id=SHOP.id;saveMeta();
   if(!S.setupDone){
    btn.textContent='Data la rahe hain…';await syncNow();S=D.settings[0]||{};
-   if(!S.setupDone&&ME.role!=='admin'){TOKEN=null;ME=null;SHOP=null;try{sessionStorage.clear()}catch(e){}$('le').textContent='Shop ka setup abhi pura nahi hua. Pehle owner ko login karke setup karne dein (internet chahiye).';btn.disabled=false;btn.textContent='Login';return}
+   if(!S.setupDone&&ME.role!=='admin'){TOKEN=null;ME=null;SHOP=null;clearSession();$('le').textContent='Shop ka setup abhi pura nahi hua. Pehle owner ko login karke setup karne dein (internet chahiye).';btn.disabled=false;btn.textContent='Login';return}
   }
   if(!S.name||!S.setupDone){renderWizard();return}
   page='dashboard';render();syncNow();
@@ -340,7 +391,7 @@ function saveWizard(){
 }
 
 /* ========== TRANSLATIONS ========== */
-let LANG = localStorage.getItem('ua_lang') || 'en';
+let LANG = 'en';
 const TR = {
  en: {
   dashboard:'📊 Dashboard', billing:'🧾 New Bill', bills:'📋 Bills', customers:'👥 Customers', items:'📦 Items / Stock', purchases:'🚚 Purchase (Import)', due:'💰 Due List', ledger:'🤝 Personal Hisaab', expenses:'💸 Kharcha', reports:'📈 Reports', staff:'👨‍💼 Staff', settings:'⚙️ Settings', help:'❓ Help',
@@ -360,7 +411,7 @@ function toggleLang(){LANG = LANG==='en'?'bn':'en';localStorage.setItem('ua_lang
 /* ========== NAV & PERMISSIONS ========== */
 const PERMS=[['billing','Naya bill banana'],['bills','Bills list dekhna'],['bill_edit','Bill edit karna'],['bill_delete','Bill delete karna'],['receive','Due list + due paisa receive'],['customers','Customers dekhna / edit'],['items','Items / Stock dekhna / edit'],['purchases','Purchase / Import Stock'],['reports','Reports + dashboard'],['ledger','Personal Hisaab'],['expenses','Kharcha entry']];
 const PRESETS={cashier:['billing','bills','receive','customers'],manager:['billing','bills','bill_edit','receive','customers','items','purchases','reports']};
-const NAVPERM={ledger:'ledger',expenses:'expenses',billing:'billing',bills:'bills',customers:'customers',items:'items',purchases:'purchases',due:'receive',reports:'reports'};
+const NAVPERM={ledger:'ledger',expenses:'expenses',billing:'billing',bills:'bills',customers:'customers',items:'items',purchases:'purchases',due:'receive',reports:'reports',counter:'reports'};
 const ADMIN_ONLY=['staff','settings'];
 function can(p){return !!ME&&(ME.role==='admin'||(ME.perms||[]).includes(p))}
 function navOK(k){if(ADMIN_ONLY.includes(k))return ME&&ME.role==='admin';return !NAVPERM[k]||can(NAVPERM[k])}
@@ -374,7 +425,7 @@ function render(){window.__bootOK=true;
  const navItems = [
   ['dashboard', T('dashboard')], ['billing', T('billing')], ['bills', T('bills')], ['customers', T('customers')], 
   ['items', T('items')], ['purchases', T('purchases')], ['due', T('due')], ['ledger', T('ledger')], 
-  ['expenses', T('expenses')], ['reports', T('reports')], ['staff', T('staff')], ['settings', T('settings')], ['help', T('help')]
+  ['expenses', T('expenses')], ['reports', T('reports')], ['counter','🧮 Counter Report'], ['staff', T('staff')], ['settings', T('settings')], ['help', T('help')]
  ];
 
  let title = (navItems.find(x=>x[0]===page)||[])[1] || T('dash'); 
@@ -386,13 +437,16 @@ function render(){window.__bootOK=true;
  <div class="me"><b>${esc(ME.name||ME.username)}</b>${esc(ME.role)} · ${esc(SHOP?SHOP.code:'')}
  <div style="margin-top:8px"><button class="btn r s" onclick="logout()" style="width:100%">Logout</button></div></div></aside>
  <main class="main"><header class="top"><h1>${title}</h1><div class="r">
- <button class="btn l s" onclick="toggleLang()" title="Change Language">${LANG==='en'?'বাং':'EN'}</button>
+ ${langSel()}
  <span id="status" class="chip"></span><span class="chip">${esc(SHOP?SHOP.name:'')}</span></div></header>
  <div class="view" id="view"></div><div class="foot">Powered by <b>UltraAccounting</b> · Help: <b>${HELP_PHONE}</b></div></main></div>`;
  renderStatus();(views[page]||views.dashboard)();
+ try{const a=document.querySelector('.nav button.on');if(a&&a.scrollIntoView)a.scrollIntoView({inline:'center',block:'nearest'})}catch(e){}
 }
 
-function logout(){TOKEN=null;ME=null;SHOP=null;S={};M={};try{sessionStorage.clear()}catch(e){}renderLogin()}
+function saveSession(){try{localStorage.setItem('ua_token',TOKEN);localStorage.setItem('ua_shop',JSON.stringify(SHOP));localStorage.setItem('ua_user',JSON.stringify(ME))}catch(e){}}
+function clearSession(){try{['ua_token','ua_shop','ua_user'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k)})}catch(e){}}
+function logout(){TOKEN=null;ME=null;SHOP=null;S={};M={};clearSession();renderLogin()}
 
 const views={};
 
@@ -405,12 +459,12 @@ views.dashboard=function(){
  const recent=can('bills')||can('reports')||ME.role==='admin'?todayBills.sort((a,b)=>b.ts-a.ts).slice(0,8):[];
  $('view').innerHTML=`
  ${can('reports')?`<div class="stats">
-  <div class="stat s1"><i class="si">💰</i><b>₹ ${inr(todaySale)}</b><span>${T('sale')}</span></div>
-  <div class="stat s2"><i class="si">📥</i><b>₹ ${inr(todayPaid)}</b><span>${T('coll')}</span></div>
-  <div class="stat s3"><i class="si">🧾</i><b>₹ ${inr(todayDue)}</b><span>${T('due_a')}</span></div>
-  <div class="stat s4"><i class="si">📄</i><b>${todayBills.length}</b><span>${T('bills_a')}</span></div>
-  <div class="stat s5"><i class="si">⏳</i><b>₹ ${inr(totalDue)}</b><span>${T('due_tot')}</span></div>
-  <div class="stat s6"><i class="si">👥</i><b>${D.customers.length}</b><span>${T('cust_tot')}</span></div>
+  <div class="stat s1 click" onclick="statGo('bills')"><i class="si">💰</i><b>₹ ${inr(todaySale)}</b><span>${T('sale')}</span></div>
+  <div class="stat s2 click" onclick="statGo('bills')"><i class="si">📥</i><b>₹ ${inr(todayPaid)}</b><span>${T('coll')}</span></div>
+  <div class="stat s3 click" onclick="statGo('todaydue')"><i class="si">🧾</i><b>₹ ${inr(todayDue)}</b><span>${T('due_a')}</span></div>
+  <div class="stat s4 click" onclick="statGo('bills')"><i class="si">📄</i><b>${todayBills.length}</b><span>${T('bills_a')}</span></div>
+  <div class="stat s5 click" onclick="statGo('due')"><i class="si">⏳</i><b>₹ ${inr(totalDue)}</b><span>${T('due_tot')}</span></div>
+  <div class="stat s6 click" onclick="statGo('cust')"><i class="si">👥</i><b>${D.customers.length}</b><span>${T('cust_tot')}</span></div>
  </div>`:''}
  ${can('reports')?weekChart():''}
  ${lowStock&&can('items')?`<div class="banner bad"><span>⚠️ ${lowStock} items ka stock kam hai</span><button class="btn o s" onclick="nav('items')">Check</button></div>`:''}
@@ -437,7 +491,7 @@ function weekChart(){
 }
 
 /* ========== BILLING ========== */
-function newBill(){return{id:null,customer_id:null,customer_name:'',customer_mob:'',customer_addr:'',items:[],discount:0,paid:'',paidT:false,mode:'Cash',notes:'',date:ymd(),gst_enabled:false}}
+function newBill(){return{id:null,customer_id:null,customer_name:'',customer_mob:'',customer_addr:'',items:[],discount:0,paid:'',paidT:false,mode:'Cash',notes:'',date:ymd(),gst_enabled:false,gst_incl:false,igst:false,cust_gstin:''}}
 
 views.billing=function(){if(!F)F=newBill();drawBilling()};
 
@@ -451,6 +505,7 @@ function drawBilling(){
   </label>
   <label class="f">Mobile<input id="f_mob" value="${esc(F.customer_mob)}" oninput="fset('customer_mob',this.value)" inputmode="tel" autocomplete="off"></label>
   <label class="f">Bill Date<input type="date" value="${esc(F.date)}" max="${ymd()}" oninput="fset('date',this.value)"></label>
+  ${S.gst_no?`<label class="f">Customer GSTIN <span style="font-weight:400">(optional)</span><input value="${esc(F.cust_gstin||'')}" oninput="fset('cust_gstin',this.value.toUpperCase())" maxlength="15" style="text-transform:uppercase"></label>`:''}
   <label class="f" style="grid-column:1/-1">Address<input id="f_addr" value="${esc(F.customer_addr)}" oninput="fset('customer_addr',this.value)"></label>
  </div><div class="sug" id="sug"></div>
  ${F.customer_id?`<div class="muted" style="margin-top:6px">Existing customer · <a href="#" onclick="F.customer_id=null;drawBilling();return false">Naya customer</a></div>`:''}
@@ -466,11 +521,15 @@ function drawBilling(){
   <label class="f">Mode<select onchange="fset('mode',this.value)">${['Cash','UPI / QR','Card','Cheque'].map(x=>`<option${F.mode===x?' selected':''}>${x}</option>`).join('')}</select></label>
   <label class="f">Notes<input value="${esc(F.notes)}" oninput="fset('notes',this.value)"></label>
  </div>
- ${S.gst_no?`<div style="margin-top:10px"><label style="display:flex;align-items:center;gap:8px;font-size:13px"><input type="checkbox" style="width:auto" ${F.gst_enabled?'checked':''} onchange="F.gst_enabled=this.checked;calc()"> GST bill banao (CGST+SGST 18%)</label></div>`:''}
+ ${S.gst_no?`<div style="margin-top:12px;padding:12px 14px;border:1px dashed #a9c4ee;border-radius:12px;background:#f6faff">
+  <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--navy);margin:0"><input type="checkbox" ${F.gst_enabled?'checked':''} onchange="F.gst_enabled=this.checked;drawBilling()"> GST Tax Invoice</label>
+  ${F.gst_enabled?`<div class="g2" style="margin-top:10px">
+   <label class="f">Price type<select onchange="F.gst_incl=this.value==='1';calc()"><option value="0"${F.gst_incl?'':' selected'}>Rates are without GST (GST added on top)</option><option value="1"${F.gst_incl?' selected':''}>Rates include GST (MRP)</option></select></label>
+   <label class="f">Place of supply<select onchange="F.igst=this.value==='1';drawBilling()"><option value="0"${F.igst?'':' selected'}>Same state — CGST + SGST</option><option value="1"${F.igst?' selected':''}>Other state — IGST</option></select></label></div>`:'<div class="muted" style="margin-top:4px">Off = normal bill without GST</div>'}</div>`:''}
  <div class="tot" style="margin-top:14px">
   <span>Sub Total</span><b id="t_sub">₹ 0</b>
   <span>Discount</span><b id="t_disc">₹ 0</b>
-  ${S.gst_no&&F.gst_enabled?'<span>CGST (9%)</span><b id="t_cgst">₹ 0</b><span>SGST (9%)</span><b id="t_sgst">₹ 0</b>':''}
+  ${S.gst_no&&F.gst_enabled?(F.igst?'<span>IGST</span><b id="t_igst">₹ 0</b>':'<span>CGST</span><b id="t_cgst">₹ 0</b><span>SGST</span><b id="t_sgst">₹ 0</b>'):''}
   <span>Net Total</span><b class="big" id="t_net">₹ 0</b>
   <span>Paid</span><b id="t_paid">₹ 0</b>
   <span style="color:var(--red)">Due</span><b id="t_due" style="color:var(--red)">₹ 0</b>
@@ -500,17 +559,18 @@ function drawCustSug(){
 function useCust(id){const c=D.customers.find(x=>x.id===id);if(!c)return;F.customer_id=c.id;F.customer_name=c.name;F.customer_mob=c.mob||'';F.customer_addr=c.addr||'';drawBilling()}
 
 function drawItems(){
- const el=$('f_items');if(!el)return;
+ const el=$('f_items');if(!el)return;const GO=!!(S.gst_no&&F.gst_enabled);
  if(!F.items.length){el.innerHTML='<div class="em">Koi item nahi. Upar search karke add karein.</div>';return}
- el.innerHTML=`<div class="tw"><table><tr><th>#</th><th>Item</th><th class="n">Qty</th><th class="n">Rate</th><th class="n">Amount</th><th></th></tr>
+ el.innerHTML=`<div class="tw"><table><tr><th>#</th><th>Item</th><th class="n">Qty</th><th class="n">Rate</th>${GO?'<th class="n">GST %</th>':''}<th class="n">Amount</th><th></th></tr>
  ${F.items.map((it,i)=>`<tr><td>${i+1}</td><td>${esc(it.name)}</td>
  <td class="n"><input type="number" step="0.01" min="0" value="${it.qty}" style="width:80px;text-align:right" oninput="itemSet(${i},'qty',this.value)"></td>
  <td class="n"><input type="number" step="0.01" min="0" value="${it.rate}" style="width:90px;text-align:right" oninput="itemSet(${i},'rate',this.value)"></td>
+ ${GO?`<td class="n"><select style="width:78px" onchange="itemSet(${i},'gst',this.value)">${GST_RATES.map(g=>`<option value="${g}"${num(it.gst)===g?' selected':''}>${g}%</option>`).join('')}</select></td>`:''}
  <td class="n" id="amt_${i}">₹ ${inr(num(it.qty)*num(it.rate))}</td>
  <td><button class="btn r s" onclick="rmItem(${i})">X</button></td></tr>`).join('')}
  </table></div>`;
 }
-function itemSet(i,k,v){F.items[i][k]=k==='qty'||k==='rate'?num(v):v;const c=$('amt_'+i);if(c)c.textContent='₹ '+inr(num(F.items[i].qty)*num(F.items[i].rate));calc()}
+function itemSet(i,k,v){F.items[i][k]=k==='qty'||k==='rate'||k==='gst'?num(v):v;const c=$('amt_'+i);if(c)c.textContent='₹ '+inr(num(F.items[i].qty)*num(F.items[i].rate));calc()}
 function rmItem(i){F.items.splice(i,1);drawItems();calc()}
 
 function drawSug(){
@@ -538,23 +598,34 @@ function itemKey(e){
 
 function addItem(id){const it=D.items.find(x=>x.id===id);if(!it)return;
  if(F.items.some(x=>x.item_id===id)){toast('Ye item already added hai',true);return}
- F.items.push({item_id:id,name:it.name,qty:1,rate:num(it.rate||0),cost:num(it.cost||0)});
+ F.items.push({item_id:id,name:it.name,qty:1,rate:num(it.rate||0),cost:num(it.cost||0),gst:itemGst(it),hsn:it.hsn||''});
  $('f_item').value='';$('isug').style.display='none';drawItems();calc();$('f_item').focus();
 }
 function addManual(name){
- F.items.push({item_id:null,name,qty:1,rate:0});
+ F.items.push({item_id:null,name,qty:1,rate:0,gst:defGst(),hsn:''});
  drawItems(); // Ye line missing thi
  calc();      // Ye line missing thi
  toast('Naya item add kiya. Rate daalein.',false);
 }
 
+const GST_RATES=[0,3,5,12,18,28];
+const defGst=()=>S.gst_default==null||S.gst_default===''?18:num(S.gst_default);
+const itemGst=it=>it&&it.gst!=null&&it.gst!==''?num(it.gst):defGst();
 function calcTot(f){
- const sub=f.items.reduce((s,it)=>s+num(it.qty)*num(it.rate),0);
+ const gstOn=!!(S.gst_no&&f.gst_enabled);
+ const L=f.items.map(it=>({amt:num(it.qty)*num(it.rate),rate:num(it.gst)}));
+ const sub=L.reduce((x,l)=>x+l.amt,0);
  const disc=Math.min(Math.max(num(f.discount),0),sub);
- let net=sub-disc;
- let cgst=0,sgst=0;
- if(S.gst_no&&f.gst_enabled){cgst=Math.round(net*0.09*100)/100;sgst=Math.round(net*0.09*100)/100;net=net+cgst+sgst}
- return{sub:r2(sub),disc:r2(disc),cgst,sgst,net:r2(net)};
+ if(!gstOn)return{sub:r2(sub),disc:r2(disc),cgst:0,sgst:0,igst:0,lines:[],net:r2(sub-disc)};
+ const k=sub>0?(sub-disc)/sub:0,by={};
+ L.forEach(l=>{const a=l.amt*k;let taxable,t;
+  if(f.gst_incl){taxable=a/(1+l.rate/100);t=a-taxable}else{taxable=a;t=a*l.rate/100}
+  const o=by[l.rate]||(by[l.rate]={rate:l.rate,taxable:0,tax:0});o.taxable+=taxable;o.tax+=t});
+ const lines=Object.values(by).sort((x,y)=>x.rate-y.rate).map(o=>{const t=r2(o.tax),h=r2(t/2);
+  return{rate:o.rate,taxable:r2(o.taxable),cgst:f.igst?0:h,sgst:f.igst?0:r2(t-h),igst:f.igst?t:0}});
+ const cgst=r2(lines.reduce((x,l)=>x+l.cgst,0)),sgst=r2(lines.reduce((x,l)=>x+l.sgst,0)),igst=r2(lines.reduce((x,l)=>x+l.igst,0));
+ const net=f.gst_incl?sub-disc:sub-disc+cgst+sgst+igst;
+ return{sub:r2(sub),disc:r2(disc),cgst,sgst,igst,lines,net:r2(net)};
 }
 function calc(){
  const T=calcTot(F);
@@ -563,6 +634,7 @@ function calc(){
  set('t_sub','₹ '+inr(T.sub));set('t_disc','₹ '+inr(T.disc));
  if($('t_cgst'))set('t_cgst','₹ '+inr(T.cgst));
  if($('t_sgst'))set('t_sgst','₹ '+inr(T.sgst));
+ if($('t_igst'))set('t_igst','₹ '+inr(T.igst));
  set('t_net','₹ '+inr(T.net));set('t_paid','₹ '+inr(paid));
  set('t_due','₹ '+inr(Math.max(0,T.net-paid)));
  const p=$('f_paid');if(p&&!F.paidT)p.value=T.net.toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
@@ -576,8 +648,8 @@ function editBill(id){
  if(!canEdit()){toast('Aapko bill edit karne ki permission nahi hai',true);return}
  closeModal();
  F={id:null,editId:b.id,editNo:b.no,customer_id:b.customer_id||null,customer_name:b.customer_name||'',customer_mob:b.customer_mob||'',customer_addr:b.customer_addr||'',
-  items:(b.items||[]).map(i=>({item_id:i.item_id||null,name:i.name,qty:num(i.qty),rate:num(i.rate),cost:num(i.cost||0)})),
-  discount:b.discount||0,paid:num(b.paid),paidT:true,mode:b.paid_mode||'Cash',notes:b.notes||'',date:b.date,gst_enabled:!!b.gst_enabled};
+  items:(b.items||[]).map(i=>({item_id:i.item_id||null,name:i.name,qty:num(i.qty),rate:num(i.rate),cost:num(i.cost||0),gst:i.gst==null?defGst():num(i.gst),hsn:i.hsn||''})),
+  discount:b.discount||0,paid:num(b.paid),paidT:true,mode:b.paid_mode||'Cash',notes:b.notes||'',date:b.date,gst_enabled:!!b.gst_enabled,gst_incl:!!b.gst_incl,igst:!!b.inter,cust_gstin:b.cust_gstin||''};
  page='billing';render();window.scrollTo(0,0);
 }
 function cancelEdit(){F=null;nav('bills')}
@@ -597,8 +669,8 @@ function saveBill(action){
   else{const c={id:uid(),name:F.customer_name.trim(),mob:F.customer_mob.trim(),addr:F.customer_addr.trim(),created:ymd()};put('customers',c);cid=c.id}
  }
  const common={date:F.date,customer_id:cid,customer_name:F.customer_name.trim(),customer_mob:F.customer_mob.trim(),customer_addr:F.customer_addr.trim(),
-  items:F.items.map(it=>({item_id:it.item_id,name:it.name,qty:num(it.qty),rate:num(it.rate),cost:num(it.cost||0)||null,amount:r2(num(it.qty)*num(it.rate))})),
-  sub:T.sub,discount:T.disc,cgst:T.cgst,sgst:T.sgst,total:T.net,paid,paid_mode:F.mode,due:r2(T.net-paid),notes:F.notes,
+  items:F.items.map(it=>({item_id:it.item_id,name:it.name,qty:num(it.qty),rate:num(it.rate),cost:num(it.cost||0)||null,gst:num(it.gst),hsn:it.hsn||'',amount:r2(num(it.qty)*num(it.rate))})),
+  sub:T.sub,discount:T.disc,cgst:T.cgst,sgst:T.sgst,igst:T.igst,tax_lines:T.lines,gst_incl:!!(S.gst_no&&F.gst_enabled&&F.gst_incl),inter:!!(S.gst_no&&F.gst_enabled&&F.igst),cust_gstin:(F.cust_gstin||'').trim(),total:T.net,paid,paid_mode:F.mode,due:r2(T.net-paid),notes:F.notes,
   gst_enabled:!!(S.gst_no&&F.gst_enabled),gst_no:S.gst_no||''};
  let b;
  if(old){
@@ -606,14 +678,14 @@ function saveBill(action){
   put('bills',b);
   if(old.stock_done){adjStock(old.items,-1);adjStock(b.items,1)}
   const diff=r2(paid-num(old.paid));
-  if(Math.abs(diff)>=0.01)put('payments',{id:uid(),bill_id:b.id,bill_no:b.no,date:ymd(),ts:Date.now(),amount:diff,mode:diff>0?F.mode:'Adjustment',note:'Bill edit',customer:cid});
+  if(Math.abs(diff)>=0.01)put('payments',{id:uid(),bill_id:b.id,bill_no:b.no,date:ymd(),ts:Date.now(),amount:diff,mode:diff>0?F.mode:'Adjustment',note:'Bill edit',customer:cid,by:ME.name,by_id:ME.id});
   log('Edit bill',b.no,`₹${inr(old.total)} → ₹${inr(T.net)}`);
   toast('Bill update ho gaya: '+b.no);
  }else{
   const no=`${S.bill_prefix}-${ymd().slice(0,4)}-${pad(nextSeq('bill'),4)}`;
-  b=Object.assign({id:uid(),no,ts:Date.now(),created_by:ME.name,stock_done:true},common);
+  b=Object.assign({id:uid(),no,ts:Date.now(),created_by:ME.name,created_by_id:ME.id,stock_done:true},common);
   put('bills',b);adjStock(b.items,1);
-  if(paid>0)put('payments',{id:uid(),bill_id:b.id,bill_no:b.no,date:ymd(),ts:Date.now(),amount:paid,mode:F.mode,customer:cid});
+  if(paid>0)put('payments',{id:uid(),bill_id:b.id,bill_no:b.no,date:ymd(),ts:Date.now(),amount:paid,mode:F.mode,customer:cid,by:ME.name,by_id:ME.id});
   log('Create bill',b.no,`₹${inr(T.net)}`);
   toast('Bill save ho gaya: '+b.no);
  }
@@ -792,7 +864,10 @@ function paySup(supId){
 }
 
 /* ========== BILLS LIST ========== */
-let BF={from:'',to:'',q:''};
+let BF={from:'',to:'',q:'',due:false,by:''};
+function statGo(k){const td=ymd();
+ if(k==='bills'||k==='todaydue'){BF={from:td,to:td,q:'',due:k==='todaydue',by:''};nav('bills')}
+ else if(k==='due')nav('due');else if(k==='cust')nav('customers')}
 views.bills=function(){
  if(!BF.from){BF.from=ymd(new Date(Date.now()-30*86400000));BF.to=ymd()}
  $('view').innerHTML=`<div class="card"><div class="row">
@@ -801,13 +876,15 @@ views.bills=function(){
  <label class="f" style="flex:1;min-width:200px">Search<input value="${esc(BF.q)}" placeholder="Bill no, customer, mobile" oninput="BF.q=this.value;drawBills()"></label>
  <button class="btn l s" onclick="BF.from=ymd();BF.to=ymd();drawBills()">Today</button>
  <button class="btn l s" onclick="BF.from='2000-01-01';BF.to='2999-12-31';drawBills()">All</button>
+  <label style="display:flex;gap:6px;align-items:center;margin:0;font-size:13px;font-weight:600;color:var(--navy)"><input type="checkbox" style="width:auto;margin:0" ${BF.due?'checked':''} onchange="BF.due=this.checked;drawBills()"> Only pending due</label>
+  ${BF.by?`<button class="btn s" onclick="BF.by='';views.bills()">Staff: ${esc(BF.by)} ✕</button>`:''}
  </div></div><div class="card"><div id="btable"></div></div>`;
  drawBills();
 };
 function billBadge(b){const d=num(b.due);if(d<=0.009)return'<span class="bdg ok">Paid</span>';return num(b.paid)>0?'<span class="bdg warn">Partial</span>':'<span class="bdg bad">Unpaid</span>'}
 function drawBills(){
  const q=BF.q.trim().toLowerCase();
- const a=D.bills.filter(b=>!b._del&&b.date>=BF.from&&b.date<=BF.to&&(!q||(b.no+' '+b.customer_name+' '+(b.customer_mob||'')).toLowerCase().includes(q))).sort((x,y)=>y.ts-x.ts);
+ const a=D.bills.filter(b=>!b._del&&b.date>=BF.from&&b.date<=BF.to&&(!q||(b.no+' '+b.customer_name+' '+(b.customer_mob||'')).toLowerCase().includes(q))&&(!BF.due||num(b.due)>0.009)&&(!BF.by||b.created_by===BF.by)).sort((x,y)=>y.ts-x.ts);
  const el=$('btable');if(!el)return;
  if(!a.length){el.innerHTML='<div class="em">Koi bill nahi mila.</div>';return}
  const sum=a.reduce((s,b)=>({t:s.t+num(b.total),p:s.p+num(b.paid),d:s.d+num(b.due)}),{t:0,p:0,d:0});
@@ -836,7 +913,7 @@ function payDue(id){if(!can('receive')){toast('Permission nahi hai',true);return
  if(v===null)return;const a=num(v);if(a<=0||a>b.due){toast('Galat amount',true);return}
  const n=Object.assign({},b);n.paid=num(b.paid)+a;n.due=num(b.due)-a;
  put('bills',n);
- put('payments',{id:uid(),bill_id:b.id,bill_no:b.no,date:ymd(),ts:Date.now(),amount:a,mode:'Cash',customer:b.customer_id});
+ put('payments',{id:uid(),bill_id:b.id,bill_no:b.no,date:ymd(),ts:Date.now(),amount:a,mode:'Cash',customer:b.customer_id,by:ME.name,by_id:ME.id});
  log('Due received',b.no,'₹'+inr(a));
  toast('₹ '+inr(a)+' received');
  if(page==='bills')drawBills();else if(page==='due')drawDue();
@@ -878,6 +955,7 @@ function itemForm(id){
  <label class="f">Sale Rate (₹)<input id="i_rate" type="number" step="0.01" value="${it.rate}"></label>
  <label class="f">Purchase Rate (₹) <span style="font-weight:400">— munafa ke liye</span><input id="i_cost" type="number" step="0.01" value="${it.cost||''}"></label>
  <label class="f">Stock Qty<input id="i_qty" type="number" step="0.01" value="${it.qty}"></label>
+ ${S.gst_no?`<label class="f">GST % <select id="i_gst">${GST_RATES.map(g=>`<option value="${g}"${itemGst(it)===g?' selected':''}>${g}%</option>`).join('')}</select></label><label class="f">HSN / SAC code<input id="i_hsn" value="${esc(it.hsn||'')}" maxlength="8" inputmode="numeric"></label>`:''}
  <label class="f">Low Stock Warning<input id="i_low" type="number" value="${it.low_stock||5}"></label>
  </div>
  <div class="mfoot"><button class="btn l" onclick="closeModal()">Cancel</button><button class="btn g" onclick="saveItem('${id||''}')">Save</button></div>`);
@@ -887,6 +965,7 @@ function saveItem(id){
  const o=Object.assign({id:id||uid()},id?D.items.find(x=>x.id===id):{created:ymd()},{
   name,unit:$('i_unit').value,category:$('i_cat').value.trim(),rate:num($('i_rate').value),cost:num($('i_cost').value),qty:num($('i_qty').value),low_stock:num($('i_low').value)
  });
+ if($('i_gst')){o.gst=num($('i_gst').value);o.hsn=$('i_hsn').value.trim()}
  put('items',o);log(id?'Edit item':'Add item',name,'');closeModal();drawItemsList();toast('Item saved');
 }
 function delItem(id){const it=D.items.find(x=>x.id===id);if(!it)return;
@@ -964,11 +1043,6 @@ function drawDue(){
  <button class="btn l s" onclick="waDue('${b.id}')">WA Reminder</button></td></tr>`).join('')}
  </table></div>`;
 }
-function waDue(id){
- const b=D.bills.find(x=>x.id===id);if(!b)return;
- const msg=['*'+S.name+'*',S.address,'','Namaste '+b.customer_name+',','Aapka bill '+b.no+' ka *₹'+inr(b.due)+'* baaki hai.','Kripya jaldi payment karein.','','Dhanyavaad!'];
- waOpen(b.customer_mob,msg);
-}
 
 /* ========== REPORTS ========== */
 let RF={from:'',to:''};
@@ -981,6 +1055,7 @@ views.reports=function(){
  <button class="btn l s" onclick="const n=new Date();RF.from=ymd(new Date(n.getFullYear(),n.getMonth(),1));RF.to=ymd();drawRep()">This Month</button>
  <button class="btn l s" onclick="const n=new Date();RF.from=ymd(new Date(n.getFullYear(),n.getMonth()-1,1));RF.to=ymd(new Date(n.getFullYear(),n.getMonth(),0));drawRep()">Last Month</button>
  <button class="btn g" onclick="exportCSV()">Export CSV</button>
+  <button class="btn" onclick="caPack()">📤 Reports for CA</button>
  </div></div><div id="rep"></div>`;
  drawRep();
 };
@@ -988,7 +1063,7 @@ function drawRep(){
  const a=D.bills.filter(b=>!b._del&&b.date>=RF.from&&b.date<=RF.to).sort((x,y)=>x.date.localeCompare(y.date));
  const total=a.reduce((s,b)=>s+num(b.total),0),paid=a.reduce((s,b)=>s+num(b.paid),0),due=a.reduce((s,b)=>s+num(b.due),0);
  const disc=a.reduce((s,b)=>s+num(b.discount),0);
- const gst=a.reduce((s,b)=>s+num(b.cgst)+num(b.sgst),0);
+ const gst=a.reduce((s,b)=>s+num(b.cgst)+num(b.sgst)+num(b.igst),0);
  const kharcha=D.expenses.filter(e=>!e._del&&e.date>=RF.from&&e.date<=RF.to).reduce((x,e)=>x+num(e.amount),0);
  let profit=0;a.forEach(b=>{let ip=0,ca=0;(b.items||[]).forEach(i=>{if(num(i.cost)>0){ip+=(num(i.rate)-num(i.cost))*num(i.qty);ca+=num(i.amount)}});profit+=ip-(num(b.sub)>0?num(b.discount)*ca/num(b.sub):0)});
  const items={};a.forEach(b=>(b.items||[]).forEach(it=>{items[it.name]=(items[it.name]||0)+num(it.qty)}));
@@ -1016,7 +1091,7 @@ function drawRep(){
 function exportCSV(){
  const a=D.bills.filter(b=>!b._del&&b.date>=RF.from&&b.date<=RF.to).sort((x,y)=>x.ts-y.ts);
  const h=['Bill No','Date','Customer','Mobile','Items','Sub','Discount','CGST','SGST','Total','Paid','Due','Mode'];
- const rows=a.map(b=>[b.no,fd(b.date),b.customer_name,b.customer_mob||'',(b.items||[]).map(i=>i.name+'x'+i.qty).join('; '),b.sub,b.discount,b.cgst||0,b.sgst||0,b.total,b.paid,b.due,b.paid_mode]);
+ const rows=a.map(b=>[b.no,fd(b.date),b.customer_name,b.customer_mob||'',(b.items||[]).map(i=>i.name+'x'+i.qty).join('; '),b.sub,b.discount,b.cgst||0,b.sgst||0,b.igst||0,b.total,b.paid,b.due,b.paid_mode]);
  const csv=[h].concat(rows).map(r=>r.map(c=>{c=String(c==null?'':c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(',')).join('\r\n');
  download('UltraAccounting_'+RF.from+'_to_'+RF.to+'.csv','\ufeff'+csv,'text/csv');
 }
@@ -1034,6 +1109,7 @@ views.settings=function(){
   <label class="f" style="grid-column:1/-1">Address<input id="s_addr" value="${esc(S.address||'')}"></label>
   <label class="f">City / Pin<input id="s_city" value="${esc(S.city||'')}"></label>
   <label class="f">GST No.<input id="s_gst" value="${esc(S.gst_no||'')}"></label>
+  <label class="f">Default GST % for items<select id="s_gstdef">${GST_RATES.map(g=>`<option value="${g}"${defGst()===g?' selected':''}>${g}%</option>`).join('')}</select></label>
   <label class="f">Bill Prefix<input id="s_prefix" value="${esc(S.bill_prefix||'INV')}" maxlength="6"></label>
   <label class="f">Print Size<select id="s_print"><option value="A4"${S.print_size==='A4'?' selected':''}>A4</option><option value="A5"${S.print_size==='A5'?' selected':''}>A5</option><option value="THERMAL"${S.print_size==='THERMAL'?' selected':''}>Thermal</option></select></label>
  </div>
@@ -1055,7 +1131,7 @@ function saveSettingsForm(){
  S.name=$('s_name').value.trim();S.owner=$('s_owner').value.trim();S.mobile=$('s_mob').value.trim();
  S.email=$('s_email').value.trim();S.address=$('s_addr').value.trim();S.city=$('s_city').value.trim();
  S.gst_no=$('s_gst').value.trim().toUpperCase();S.bill_prefix=($('s_prefix').value.trim().toUpperCase()||'INV').slice(0,6);
- S.print_size=$('s_print').value;
+ S.print_size=$('s_print').value;S.gst_default=num($('s_gstdef').value);
  saveSettings();toast('Settings saved');
 }
 function doBackup(){const data=JSON.stringify({app:'ultra-accounting',v:1,ts:Date.now(),data:D},null,2);download('UltraAccounting_Backup_'+ymd()+'.json',data,'application/json');toast('Backup downloaded')}
@@ -1064,17 +1140,17 @@ views.help=function(){
  $('view').innerHTML=`
  <div class="card" style="border-left:5px solid var(--navy)"><h2>UltraAccounting Help</h2>
  <p style="font-size:16px;margin:0">Call / WhatsApp: <b><a href="tel:${HELP_PHONE}">${HELP_PHONE}</a></b></p>
- <p class="muted" style="margin:4px 0">Email: ${HELP_EMAIL}</p></div>
- <div class="card"><h2>Kaise use karein?</h2><ol style="line-height:1.9;margin-left:18px">
- <li><b>New Bill</b> → Customer aur items daalein → Save</li>
- <li>Bill banne ke baad <b>Print</b> / <b>WhatsApp</b> options milenge</li>
- <li><b>Items</b> me apna stock set karein</li>
- <li><b>Due List</b> me dekhein kiska paisa baaki hai</li>
- <li><b>Reports</b> me daily/monthly sale dekhein</li>
- </ol></div>
- <div class="card"><h2>🤝 Personal Hisaab kya hai?</h2><p style="margin:0 0 8px">Dukan ke bill se <b>alag</b> aapka apna hisab — dost, rishtedaar, supplier, staff. Bill/GST/stock se iska koi lena-dena nahi.</p>
- <ul style="line-height:1.9;margin-left:18px"><li><b>Diya</b> = aapne paisa diya → unse <b style="color:var(--green)">Lena</b> hai</li><li><b>Liya</b> = aapne paisa/maal liya → unko <b style="color:var(--red)">Dena</b> hai</li><li>Balance apne aap banta hai; Lena wale ko WhatsApp reminder bhej sakte hain</li></ul></div>
- <div class="card"><h2>Offline</h2><p class="muted">Internet na ho to bhi software chalega. Data local me safe rahega.</p></div>`;
+ <p class="muted" style="margin:4px 0">${HELP_EMAIL}</p></div>
+ <div class="card"><h2>How to use?</h2><ol style="line-height:1.9;margin-left:18px">
+ <li><b>New Bill</b> → Add customer and items → Save</li>
+ <li>After the bill is created you get <b>Print</b> / <b>WhatsApp</b> options</li>
+ <li><b>Items</b> — set up your stock</li>
+ <li><b>Purchase</b> — record goods bought from wholesalers; stock updates automatically</li>
+ <li><b>Due List</b> — see who still owes you</li>
+ <li><b>Reports</b> — view daily / monthly sales and profit</li></ol></div>
+ <div class="card"><h2>What is Personal Ledger?</h2><p style="margin:0 0 8px">Your own account, <b>separate</b> from shop bills — friends, relatives, suppliers, staff. It has nothing to do with bills, GST or stock.</p>
+ <ul style="line-height:1.9;margin-left:18px"><li><b>You Gave</b> — you gave money or goods, so you will receive it back (To Receive)</li><li><b>You Got</b> — you took money or goods, so you have to pay it back (To Pay)</li><li>The balance is calculated automatically. You can send a WhatsApp reminder to anyone who owes you.</li></ul></div>
+ <div class="card"><h2>Offline</h2><p class="muted">The software works without internet. Your data stays safe on this device and syncs when you are online.</p></div>`;
 };
 
 /* ========== STAFF (admin only) ========== */
@@ -1236,41 +1312,6 @@ function delParty(id){const p=D.parties.find(x=>x.id===id);if(!p||!confirm(p.nam
  pEntries(id).forEach(e=>put('entries',Object.assign({},e,{_del:true})));put('parties',Object.assign({},p,{_del:true}));log('Delete party',p.name,'');
  closeModal();toast('Party delete ho gayi');if(page==='ledger')views.ledger()}
 
-function waParty(id){
- const p=D.parties.find(x=>x.id===id);if(!p)return;const b=pBal(id);
- if(!p.mob){toast('Mobile number nahi hai',true);return}
-
- // "Dear/Priya/Priyo" use kiya gaya hai
- const msgHi = b > 0 
-   ? ['*'+(S.name||'')+'*', '', 'प्रिय '+p.name+',', 'आपका *₹'+inr(b)+'* हमारे यहाँ बाकी है।', 'कृपया जल्दी भुगतान करने का कष्ट करें।', '', 'धन्यवाद! 🙏']
-   : ['*'+(S.name||'')+'*', '', 'प्रिय '+p.name+',', 'हमारा आपको *₹'+inr(-b)+'* देना बाकी है।', 'हम जल्दी भुगतान करने की कोशिश कर रहे हैं।', '', 'धन्यवाद! 🙏'];
-
- const msgEn = b > 0 
-   ? ['*'+(S.name||'')+'*', '', 'Dear '+p.name+',', 'Aapka *₹'+inr(b)+'* hamare yahan baaki hai.', 'Kripya jaldi payment karne ka kasht karein.', '', 'Dhanyavaad! 🙏']
-   : ['*'+(S.name||'')+'*', '', 'Dear '+p.name+',', 'Humara aapko *₹'+inr(-b)+'* dena baaki hai.', 'Hum jaldi payment karne ki koshish kar rahe hain.', '', 'Dhanyavaad! 🙏'];
-
- const msgBn = b > 0 
-   ? ['*'+(S.name||'')+'*', '', 'প্রিয় '+p.name+',', 'আপনার *₹'+inr(b)+'* আমাদের কাছে বাকি আছে।', 'অনুগ্রহ করে তাড়াতাড়ি পেমেন্ট করার চেষ্টা করুন।', '', 'ধন্যবাদ! 🙏']
-   : ['*'+(S.name||'')+'*', '', 'প্রিয় '+p.name+',', 'আমাদের আপনার *₹'+inr(-b)+'* দেওয়া বাকি আছে।', 'আমরা তাড়াতাড়ি পেমেন্ট করার চেষ্টা করছি।', '', 'ধন্যবাদ! 🙏'];
-
- modal(`<h2>📱 WhatsApp Message Language</h2>
-   <p class="muted">Kis bhasha me message bhejna hai?</p>
-   <div class="row" style="margin-top:20px; gap:10px;">
-     <button class="btn" style="flex:1; background:#1da851;" onclick="sendPartyWA('${p.mob}', ${JSON.stringify(msgHi).replace(/"/g, '&quot;')})">🇮🇳 Hindi</button>
-     <button class="btn" style="flex:1;" onclick="sendPartyWA('${p.mob}', ${JSON.stringify(msgEn).replace(/"/g, '&quot;')})">🇬🇧 English</button>
-     <button class="btn" style="flex:1; background:#e25555;" onclick="sendPartyWA('${p.mob}', ${JSON.stringify(msgBn).replace(/"/g, '&quot;')})">🇧🇩 Bengali</button>
-   </div>
-   <div class="mfoot"><button class="btn l" onclick="closeModal()">Cancel</button></div>
- `);
- log('WhatsApp reminder', p.name, '₹'+inr(b));
-}
-
-// Naya helper function WhatsApp kholne ke liye
-function sendPartyWA(mob, msg) {
- closeModal();
- waOpen(mob, msg);
-}
-
 function partyStatement(id){const p=D.parties.find(x=>x.id===id);if(!p)return;
  const E=pEntries(id).sort((x,y)=>(x.date+String(x.ts)).localeCompare(y.date+String(y.ts)));let run=0;
  printHTML(`<div class="rc"><div class="rh">${logoHTML()}<div><div class="name">${esc(S.name||'')}</div><div class="addr">${esc(S.address||'')}</div></div></div>
@@ -1340,24 +1381,136 @@ function restoreBackup(file){
  rd.readAsText(file);
 }
 
+
+/* ========== COUNTER / STAFF REPORT ========== */
+let CF={from:'',to:''};
+const payerOf=p=>{if(p.by)return p.by;const b=D.bills.find(x=>x.id===p.bill_id);return(b&&b.created_by)||'—'};
+const payBucket=p=>{const m=String(p.mode||'Cash');return m==='Cash'?'cash':(m==='Adjustment'?'other':'digital')};
+function staffStats(from,to){
+ const rows={},R=n=>rows[n]||(rows[n]={name:n,bills:0,sale:0,disc:0,cash:0,digital:0,other:0,pending:0,cashAll:0,handed:0});
+ D.bills.filter(b=>!b._del&&b.date>=from&&b.date<=to).forEach(b=>{const x=R(b.created_by||'—');x.bills++;x.sale+=num(b.total);x.disc+=num(b.discount);x.pending+=num(b.due)});
+ D.payments.forEach(p=>{if(p._del)return;const n=payerOf(p),k=payBucket(p);if(p.date>=from&&p.date<=to)R(n)[k]+=num(p.amount);if(k==='cash')R(n).cashAll+=num(p.amount)});
+ D.handovers.filter(h=>!h._del).forEach(h=>{R(h.staff).handed+=num(h.amount)});
+ const out=Object.values(rows);out.forEach(x=>{['sale','disc','cash','digital','other','pending','cashAll','handed'].forEach(k=>x[k]=r2(x[k]));x.inHand=r2(x.cashAll-x.handed)});
+ return out.sort((a,b)=>b.sale-a.sale||b.inHand-a.inHand);
+}
+views.counter=function(){
+ if(!CF.from){CF.from=ymd();CF.to=ymd()}
+ $('view').innerHTML=`<div class="card"><div class="row">
+  <label class="f">From<input type="date" value="${CF.from}" onchange="CF.from=this.value;drawCounter()"></label>
+  <label class="f">To<input type="date" value="${CF.to}" onchange="CF.to=this.value;drawCounter()"></label>
+  <button class="btn l s" onclick="CF.from=ymd();CF.to=ymd();views.counter()">Today</button>
+  <button class="btn l s" onclick="const n=new Date();CF.from=ymd(new Date(n.getFullYear(),n.getMonth(),1));CF.to=ymd();views.counter()">This Month</button>
+  <button class="btn l s" onclick="const n=new Date();CF.from=ymd(new Date(n.getFullYear(),n.getMonth()-1,1));CF.to=ymd(new Date(n.getFullYear(),n.getMonth(),0));views.counter()">Last Month</button>
+  <button class="btn g" onclick="exportStaffCSV()">Export CSV</button></div>
+  <div class="muted" style="margin-top:8px">Counter-wise report: who made how many bills, how much money each person collected, and how much cash each person still has to hand over to the owner.</div></div><div id="cnt"></div>`;
+ drawCounter();
+};
+function drawCounter(){
+ const el=$('cnt');if(!el)return;const rows=staffStats(CF.from,CF.to);
+ const T0=k=>r2(rows.reduce((a,x)=>a+x[k],0));
+ const adm=ME.role==='admin',fmt=n=>'₹ '+inr(n);
+ const H=D.handovers.filter(h=>!h._del).sort((a,b)=>(b.date+b.ts).localeCompare(a.date+a.ts)).slice(0,15);
+ el.innerHTML=`<div class="stats">
+  <div class="stat s1"><i class="si">💰</i><b>${fmt(T0('sale'))}</b><span>Total Sale</span></div>
+  <div class="stat s2"><i class="si">💵</i><b>${fmt(T0('cash'))}</b><span>Cash collected</span></div>
+  <div class="stat s6"><i class="si">📲</i><b>${fmt(T0('digital'))}</b><span>UPI / Card / Bank collected</span></div>
+  <div class="stat s4"><i class="si">🧳</i><b>${fmt(T0('inHand'))}</b><span>Cash still with staff (to hand over)</span></div>
+  <div class="stat s5"><i class="si">⏳</i><b>${fmt(T0('pending'))}</b><span>Pending due on these bills</span></div></div>
+ <div class="card"><h2>Staff-wise report</h2>${rows.length?`<div class="tw"><table><tr><th>Staff</th><th class="n">Bills</th><th class="n">Sale</th><th class="n">Discount</th><th class="n">Cash</th><th class="n">UPI/Card</th><th class="n">Pending due</th><th class="n">Cash to hand over</th><th>Actions</th></tr>
+  ${rows.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td class="n">${x.bills}</td><td class="n">${fmt(x.sale)}</td><td class="n">${fmt(x.disc)}</td><td class="n">${fmt(x.cash)}</td><td class="n">${fmt(x.digital)}</td>
+  <td class="n" style="color:${x.pending>0?'var(--red)':'inherit'}">${fmt(x.pending)}</td>
+  <td class="n"><b style="color:${x.inHand>0.009?'var(--red)':'var(--green)'}">${fmt(x.inHand)}</b></td>
+  <td><div class="acts"><button class="btn l s" onclick="staffBills('${esc(x.name).replace(/'/g,"&#39;")}')">Bills</button>${adm&&x.inHand>0.009?`<button class="btn g s" onclick="handoverForm('${esc(x.name).replace(/'/g,"&#39;")}')">Receive cash</button>`:''}</div></td></tr>`).join('')}
+  </table></div><div class="muted" style="margin-top:8px">“Cash to hand over” = all cash this person collected (till today) minus the cash already received by the owner. Sale, collection and dues above follow the date range.</div>`:'<div class="em">No bills or collections in this period.</div>'}</div>
+ <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><h2 style="margin:0">Cash received from staff</h2>${adm?'<button class="btn" onclick="handoverForm()">+ Receive cash</button>':''}</div>
+  ${H.length?`<div class="tw" style="margin-top:10px"><table><tr><th>Date</th><th>Staff</th><th class="n">Amount</th><th>Note</th><th>Received by</th><th></th></tr>
+  ${H.map(h=>`<tr><td>${fd(h.date)}</td><td>${esc(h.staff)}</td><td class="n"><b>₹ ${inr(h.amount)}</b></td><td>${esc(h.note||'')}</td><td>${esc(h.by||'')}</td><td>${adm?`<button class="btn r s" onclick="delHandover('${h.id}')">Del</button>`:''}</td></tr>`).join('')}</table></div>`:'<div class="em">No cash received entries yet.</div>'}</div>`;
+}
+function staffBills(name){BF={from:CF.from,to:CF.to,q:'',due:false,by:name};nav('bills')}
+function handoverForm(name){
+ const rows=staffStats('2000-01-01','2999-12-31'),names=rows.map(x=>x.name),cur=name||(rows.find(x=>x.inHand>0.009)||rows[0]||{}).name||'';
+ const amt=(rows.find(x=>x.name===cur)||{}).inHand||'';
+ modal(`<h2>Receive cash from staff</h2><div class="g2">
+  <label class="f">Staff<select id="ho_staff" onchange="const x=staffStats('2000-01-01','2999-12-31').find(y=>y.name===this.value);$('ho_amt').value=x&&x.inHand>0?x.inHand:''">${names.map(n=>`<option${n===cur?' selected':''}>${esc(n)}</option>`).join('')}</select></label>
+  <label class="f">Amount (₹) *<input id="ho_amt" type="number" min="0" step="0.01" value="${amt>0?amt:''}"></label>
+  <label class="f">Date<input id="ho_date" type="date" value="${ymd()}"></label><label class="f">Note<input id="ho_note" placeholder="e.g. evening cash"></label></div>
+  <div class="mfoot"><button class="btn l" onclick="closeModal()">Cancel</button><button class="btn g" onclick="saveHandover()">Save</button></div>`);
+ setTimeout(()=>{const e=$('ho_amt');if(e)e.focus()},50);
+}
+function saveHandover(){const a=num($('ho_amt').value),st=$('ho_staff').value;if(!st||!(a>0)){toast('Enter staff and amount',true);return}
+ put('handovers',{id:uid(),ts:Date.now(),staff:st,amount:r2(a),date:$('ho_date').value||ymd(),note:$('ho_note').value.trim(),by:ME.name});
+ log('Cash received',st,'₹'+inr(a));closeModal();toast('Cash entry saved ✔');if(page==='counter')drawCounter()}
+function delHandover(id){const h=D.handovers.find(x=>x.id===id);if(!h||!confirm('Delete this cash entry?'))return;put('handovers',Object.assign({},h,{_del:true}));drawCounter()}
+function exportStaffCSV(){downloadCSV('Staff_report_'+CF.from+'_to_'+CF.to+'.csv',[['Staff','Bills','Sale','Discount','Cash','UPI/Card/Bank','Other','Pending due','Cash handed over (all time)','Cash to hand over']].concat(staffStats(CF.from,CF.to).map(x=>[x.name,x.bills,x.sale,x.disc,x.cash,x.digital,x.other,x.pending,x.handed,x.inHand])))}
+
+/* ========== CA PACK (exports for the accountant) ========== */
+const caBills=()=>D.bills.filter(b=>!b._del&&b.date>=RF.from&&b.date<=RF.to).sort((x,y)=>(x.date+x.no).localeCompare(y.date+y.no));
+function caPack(){
+ modal(`<h2>📤 Reports for your CA</h2><div class="muted">Period: <b>${fd(RF.from)} → ${fd(RF.to)}</b> (change it on the Reports page). Files open in Excel.</div>
+ <div style="display:grid;gap:8px;margin-top:14px">
+  <button class="btn" onclick="exportSalesReg()">Sales Register (GST invoice-wise)</button>
+  <button class="btn" onclick="exportHSN()">HSN-wise GST Summary</button>
+  <button class="btn" onclick="exportPurchasesCA()">Purchase Register (from wholesalers)</button>
+  <button class="btn" onclick="exportExpensesCA()">Expenses</button>
+  <button class="btn" onclick="exportDuesCA()">Customer Dues (outstanding)</button>
+  <button class="btn" onclick="exportStaffCA()">Staff / Counter-wise Summary</button></div>
+ <div class="mfoot"><button class="btn l" onclick="closeModal()">Close</button></div>`);
+}
+function exportSalesReg(){
+ const a=caBills(),rates=[...new Set(a.flatMap(b=>(b.tax_lines||[]).map(l=>l.rate)))].sort((x,y)=>x-y);
+ const head=['Invoice No','Date','Customer','Customer GSTIN','Type','Supply','Taxable Value','CGST','SGST','IGST','Total Tax','Invoice Value','Paid','Due','Payment Mode','Created By'];
+ rates.forEach(x=>head.push('Taxable @'+x+'%','Tax @'+x+'%'));
+ const rows=a.map(b=>{const g=!!b.gst_enabled,tl=b.tax_lines&&b.tax_lines.length?b.tax_lines:(g?[{rate:18,taxable:r2(num(b.sub)-num(b.discount)),cgst:num(b.cgst),sgst:num(b.sgst),igst:num(b.igst)}]:[]);
+  const taxable=g?tl.reduce((x,l)=>x+num(l.taxable),0):num(b.total);
+  const row=[b.no,fd(b.date),b.customer_name,b.cust_gstin||'',g?'GST Tax Invoice':'Bill of Supply / Cash Memo',g?(b.inter?'Inter-state':'Intra-state'):'',r2(taxable),num(b.cgst),num(b.sgst),num(b.igst),r2(num(b.cgst)+num(b.sgst)+num(b.igst)),num(b.total),num(b.paid),num(b.due),b.paid_mode||'',b.created_by||''];
+  rates.forEach(x=>{const l=tl.find(y=>y.rate===x);row.push(l?l.taxable:'',l?r2(num(l.cgst)+num(l.sgst)+num(l.igst)):'')});return row});
+ const tot=['TOTAL','','','','','',0,0,0,0,0,0,0,0,'',''];rows.forEach(rw=>{for(let i=6;i<=13;i++)tot[i]=r2(tot[i]+num(rw[i]))});
+ downloadCSV('Sales_Register_'+RF.from+'_to_'+RF.to+'.csv',[head].concat(rows,[tot]));
+}
+function exportHSN(){
+ const m={};caBills().filter(b=>b.gst_enabled).forEach(b=>{const sub=num(b.sub),k=sub>0?(sub-num(b.discount))/sub:0;
+  (b.items||[]).forEach(it=>{const rate=it.gst==null?18:num(it.gst),a=num(it.amount)*k,taxable=b.gst_incl?a/(1+rate/100):a,tax=taxable*rate/100;
+   const key=(it.hsn||'')+'|'+rate+'|'+it.name,x=m[key]||(m[key]={hsn:it.hsn||'',name:it.name,rate,qty:0,taxable:0,cgst:0,sgst:0,igst:0});
+   x.qty+=num(it.qty);x.taxable+=taxable;if(b.inter)x.igst+=tax;else{x.cgst+=tax/2;x.sgst+=tax/2}})});
+ const rows=Object.values(m).sort((x,y)=>(x.hsn+x.name).localeCompare(y.hsn+y.name)).map(x=>[x.hsn,x.name,x.rate+'%',r2(x.qty),r2(x.taxable),r2(x.cgst),r2(x.sgst),r2(x.igst),r2(x.cgst+x.sgst+x.igst)]);
+ downloadCSV('HSN_Summary_'+RF.from+'_to_'+RF.to+'.csv',[['HSN/SAC','Item','GST Rate','Quantity','Taxable Value','CGST','SGST','IGST','Total Tax']].concat(rows));
+}
+function exportPurchasesCA(){
+ downloadCSV('Purchases_'+RF.from+'_to_'+RF.to+'.csv',[['Date','Wholesaler','Item','Qty','Unit','Rate','Total','Paid','Due']].concat(D.purchases.filter(p=>!p._del&&p.date>=RF.from&&p.date<=RF.to).sort((x,y)=>x.date.localeCompare(y.date)).map(p=>[fd(p.date),p.sup_name||'',p.item_name||'',p.qty,p.unit||'',p.rate,p.total,p.paid,p.due])));
+}
+function exportExpensesCA(){
+ downloadCSV('Expenses_'+RF.from+'_to_'+RF.to+'.csv',[['Date','Category','Note','Mode','Amount']].concat(D.expenses.filter(e=>!e._del&&e.date>=RF.from&&e.date<=RF.to).sort((x,y)=>x.date.localeCompare(y.date)).map(e=>[fd(e.date),e.category,e.note||'',e.mode||'',e.amount])));
+}
+function exportDuesCA(){
+ const m={};D.bills.filter(b=>!b._del).forEach(b=>{const k=b.customer_id||b.customer_name,x=m[k]||(m[k]={name:b.customer_name,mob:b.customer_mob||'',total:0,paid:0,due:0});x.total+=num(b.total);x.paid+=num(b.paid);x.due+=num(b.due)});
+ downloadCSV('Customer_Dues_'+ymd()+'.csv',[['Customer','Mobile','Total Billed','Paid','Due']].concat(Object.values(m).filter(x=>x.due>0.009).sort((x,y)=>y.due-x.due).map(x=>[x.name,x.mob,r2(x.total),r2(x.paid),r2(x.due)])));
+}
+function exportStaffCA(){downloadCSV('Staff_Summary_'+RF.from+'_to_'+RF.to+'.csv',[['Staff','Bills','Sale','Discount','Cash','UPI/Card/Bank','Pending due']].concat(staffStats(RF.from,RF.to).map(x=>[x.name,x.bills,x.sale,x.disc,x.cash,x.digital,x.pending])))}
+
 /* ========== PRINT & WHATSAPP ========== */
 function billHTML(b){
- const gstLine=b.gst_no?`<div class="gst">GSTIN: ${esc(b.gst_no)}</div>`:'';
+ const isGst=!!(b.gst_enabled&&(b.cgst||b.sgst||b.igst||(b.tax_lines&&b.tax_lines.length)));
+ const tl=b.tax_lines&&b.tax_lines.length?b.tax_lines:(isGst?[{rate:18,taxable:r2(num(b.sub)-num(b.discount)),cgst:num(b.cgst),sgst:num(b.sgst),igst:num(b.igst)}]:[]);
+ const gstLine=b.gst_no&&(isGst||b.gst_enabled)?`<div class="gst">GSTIN: ${esc(b.gst_no)}</div>`:'';
+ const R='style="text-align:right"';
  return `<div class="rc">
   <div class="rh">${logoHTML()}<div><div class="name">${esc(S.name)}</div><div class="addr">${esc(S.address||'')}${S.city?' · '+esc(S.city):''}</div><div class="addr">Mob: ${esc(S.mobile||'')}${S.email?' · '+esc(S.email):''}</div>${gstLine}</div></div>
-  <div class="rtitle">TAX INVOICE</div>
+  <div class="rtitle">${isGst?'TAX INVOICE':'BILL / CASH MEMO'}</div>
   <div class="rmeta">
-   <table><tr><td><b>Bill No:</b></td><td>${esc(b.no)}</td></tr><tr><td><b>Date:</b></td><td>${fd(b.date)}</td></tr><tr><td><b>Mode:</b></td><td>${esc(b.paid_mode||'Cash')}</td></tr></table>
-   <table><tr><td><b>Customer:</b></td><td>${esc(b.customer_name)}</td></tr><tr><td><b>Mobile:</b></td><td>${esc(b.customer_mob||'')}</td></tr><tr><td><b>Address:</b></td><td>${esc(b.customer_addr||'')}</td></tr></table>
+   <table><tr><td><b>Bill No:</b></td><td>${esc(b.no)}</td></tr><tr><td><b>Date:</b></td><td>${fd(b.date)}</td></tr><tr><td><b>Mode:</b></td><td>${esc(b.paid_mode||'Cash')}</td></tr>${isGst?`<tr><td><b>Supply:</b></td><td>${b.inter?'Inter-state (IGST)':'Intra-state (CGST+SGST)'}</td></tr>`:''}</table>
+   <table><tr><td><b>Customer:</b></td><td>${esc(b.customer_name)}</td></tr><tr><td><b>Mobile:</b></td><td>${esc(b.customer_mob||'')}</td></tr><tr><td><b>Address:</b></td><td>${esc(b.customer_addr||'')}</td></tr>${b.cust_gstin?`<tr><td><b>GSTIN:</b></td><td>${esc(b.cust_gstin)}</td></tr>`:''}</table>
   </div>
-  <table class="items"><thead><tr><th>Sl</th><th>Item</th><th style="text-align:right">Qty</th><th style="text-align:right">Rate</th><th style="text-align:right">Amount</th></tr></thead><tbody>
-  ${(b.items||[]).map((it,i)=>`<tr><td>${i+1}</td><td>${esc(it.name)}</td><td style="text-align:right">${it.qty}</td><td style="text-align:right">${num(it.rate).toFixed(2)}</td><td style="text-align:right">${num(it.amount).toFixed(2)}</td></tr>`).join('')}
+  <table class="items"><thead><tr><th>Sl</th><th>Item</th>${isGst?'<th>HSN</th>':''}<th ${R}>Qty</th><th ${R}>Rate</th>${isGst?`<th ${R}>GST%</th>`:''}<th ${R}>Amount</th></tr></thead><tbody>
+  ${(b.items||[]).map((it,i)=>`<tr><td>${i+1}</td><td>${esc(it.name)}</td>${isGst?`<td>${esc(it.hsn||'')}</td>`:''}<td ${R}>${it.qty}</td><td ${R}>${num(it.rate).toFixed(2)}</td>${isGst?`<td ${R}>${it.gst==null?'':num(it.gst)+'%'}</td>`:''}<td ${R}>${num(it.amount).toFixed(2)}</td></tr>`).join('')}
   </tbody></table>
-  <div class="rbot"><div><b>Amount in words:</b> ${esc(amountWords(b.total))}</div>
+  ${isGst?`<table class="items" style="margin-top:8px"><thead><tr><th>GST %</th><th ${R}>Taxable Value</th>${b.inter?`<th ${R}>IGST</th>`:`<th ${R}>CGST</th><th ${R}>SGST</th>`}<th ${R}>Total Tax</th></tr></thead><tbody>
+  ${tl.map(l=>`<tr><td>${l.rate}%</td><td ${R}>${num(l.taxable).toFixed(2)}</td>${b.inter?`<td ${R}>${num(l.igst).toFixed(2)}</td>`:`<td ${R}>${num(l.cgst).toFixed(2)}</td><td ${R}>${num(l.sgst).toFixed(2)}</td>`}<td ${R}>${(num(l.cgst)+num(l.sgst)+num(l.igst)).toFixed(2)}</td></tr>`).join('')}</tbody></table>`:''}
+  <div class="rbot"><div><b>Amount in words:</b> ${esc(amountWords(b.total))}${b.gst_incl&&isGst?'<br><span style="font-size:11px">(Prices are inclusive of GST)</span>':''}</div>
   <table class="rtot">
    <tr><td>Sub Total:</td><td>₹ ${num(b.sub).toFixed(2)}</td></tr>
    ${b.discount>0?`<tr><td>Discount:</td><td>- ₹ ${num(b.discount).toFixed(2)}</td></tr>`:''}
-   ${b.cgst?`<tr><td>CGST 9%:</td><td>₹ ${num(b.cgst).toFixed(2)}</td></tr><tr><td>SGST 9%:</td><td>₹ ${num(b.sgst).toFixed(2)}</td></tr>`:''}
+   ${isGst&&!b.gst_incl?(b.inter?`<tr><td>IGST:</td><td>₹ ${num(b.igst).toFixed(2)}</td></tr>`:`<tr><td>CGST:</td><td>₹ ${num(b.cgst).toFixed(2)}</td></tr><tr><td>SGST:</td><td>₹ ${num(b.sgst).toFixed(2)}</td></tr>`):''}
    <tr class="net"><td>Net Total:</td><td>₹ ${num(b.total).toFixed(2)}</td></tr>
    <tr><td>Paid:</td><td>₹ ${num(b.paid).toFixed(2)}</td></tr>
    <tr><td>Due:</td><td>₹ ${num(b.due).toFixed(2)}</td></tr>
@@ -1382,26 +1535,69 @@ function printHTML(html){
  setTimeout(()=>window.print(),120);
 }
 function printBill(id){const b=D.bills.find(x=>x.id===id);if(!b)return;printHTML(billHTML(b))}
+/* ========== WHATSAPP (language chooser: English / Bengali / Hindi) ========== */
+let WAC=null;
+const WA_T={
+ en:{dear:'Dear',thanks:'Thank you! 🙏',
+  due:(n,no,d)=>[`Your bill ${no} has an outstanding balance of *₹${d}*.`,'Kindly make the payment at your earliest convenience.'],
+  recv:d=>[`An amount of *₹${d}* is pending from you.`,'Kindly arrange the payment at your earliest convenience.'],
+  pay:d=>[`We owe you *₹${d}*.`,'We will arrange the payment shortly.'],
+  billIntro:'Thank you for shopping with us. Your bill details:',
+  L:{no:'Bill No',date:'Date',cust:'Customer',sub:'Sub Total',disc:'Discount',net:'Net Total',paid:'Paid',due:'Due'},bye:'Thank you! Visit again 🙏'},
+ bn:{dear:'প্রিয়',thanks:'ধন্যবাদ! 🙏',
+  due:(n,no,d)=>[`আপনার বিল ${no}-এর *₹${d}* বাকি আছে।`,'অনুগ্রহ করে দ্রুত পেমেন্ট করুন।'],
+  recv:d=>[`আপনার কাছে *₹${d}* বাকি আছে।`,'অনুগ্রহ করে তাড়াতাড়ি পেমেন্ট করার চেষ্টা করুন।'],
+  pay:d=>[`আমাদের আপনাকে *₹${d}* দিতে হবে।`,'আমরা শীঘ্রই পেমেন্ট করার ব্যবস্থা করছি।'],
+  billIntro:'আমাদের এখান থেকে কেনাকাটার জন্য ধন্যবাদ। আপনার বিলের বিবরণ:',
+  L:{no:'বিল নং',date:'তারিখ',cust:'গ্রাহক',sub:'সাব টোটাল',disc:'ছাড়',net:'সর্বমোট',paid:'পরিশোধ',due:'বাকি'},bye:'ধন্যবাদ! আবার আসবেন 🙏'},
+ hi:{dear:'प्रिय',thanks:'धन्यवाद! 🙏',
+  due:(n,no,d)=>[`आपके बिल ${no} का *₹${d}* बकाया है।`,'कृपया शीघ्र भुगतान करें।'],
+  recv:d=>[`आपका *₹${d}* हमारे यहाँ बाकी है।`,'कृपया जल्दी भुगतान करने का कष्ट करें।'],
+  pay:d=>[`हमें आपको *₹${d}* देना बाकी है।`,'हम जल्द ही भुगतान की व्यवस्था कर रहे हैं।'],
+  billIntro:'हमारे यहाँ खरीदारी के लिए धन्यवाद। आपके बिल का विवरण:',
+  L:{no:'बिल नं.',date:'तारीख',cust:'ग्राहक',sub:'उप-योग',disc:'छूट',net:'कुल',paid:'भुगतान',due:'बकाया'},bye:'धन्यवाद! फिर पधारें 🙏'}
+};
+const waHead=()=>['*'+(S.name||'')+'*'].concat(S.address?[S.address]:[],['']);
+function waBuild(kind,lang,x){
+ const t=WA_T[lang]||WA_T.en;let L=waHead();
+ if(kind==='due'){L.push(`${t.dear} ${x.b.customer_name},`,...t.due(x.b.customer_name,x.b.no,inr(x.b.due)),'',t.thanks)}
+ else if(kind==='party'){L.push(`${t.dear} ${x.p.name},`,...(x.bal>0?t.recv(inr(x.bal)):t.pay(inr(-x.bal))),'',t.thanks)}
+ else{const b=x.b,l=t.L;
+  if(S.gst_no)L.splice(L.length-1,0,'GSTIN: '+S.gst_no);
+  L.push(`${t.dear} ${b.customer_name},`,t.billIntro,'');
+  L.push(`*${l.no}:* ${b.no}`,`*${l.date}:* ${fd(b.date)}`,'');
+  (b.items||[]).forEach((it,i)=>L.push((i+1)+'. '+it.name+' × '+it.qty+' = ₹'+inr(it.amount)));
+  L.push('',`*${l.sub}:* ₹${inr(b.sub)}`);
+  if(num(b.discount)>0)L.push(`*${l.disc}:* -₹${inr(b.discount)}`);
+  if(num(b.igst)>0)L.push('*IGST:* ₹'+inr(b.igst));else if(num(b.cgst)>0)L.push('*CGST:* ₹'+inr(b.cgst),'*SGST:* ₹'+inr(b.sgst));
+  L.push(`*${l.net}:* ₹${inr(b.total)}`,`*${l.paid}:* ₹${inr(b.paid)}`);
+  if(num(b.due)>0)L.push(`*${l.due}:* ₹${inr(b.due)}`);
+  L.push('',t.bye,'- '+(S.name||''))}
+ return L;
+}
+function waChoose(kind,x,mob,logTxt){
+ if(!mob){toast('Mobile number is missing',true);return}
+ let last='en';try{last=localStorage.getItem('ua_walang')||'en'}catch(e){}
+ WAC={kind,x,mob,log:logTxt,lang:last};
+ modal(`<h2>📱 Send WhatsApp message</h2><div class="muted">Choose the language of the message. You can edit the text before sending.</div>
+ <div class="tabs" style="margin:14px 0 10px">${[['en','English'],['bn','বাংলা'],['hi','हिन्दी']].map(a=>`<button id="wal_${a[0]}" class="${last===a[0]?'on':''}" onclick="waSetLang('${a[0]}')">${a[1]}</button>`).join('')}</div>
+ <textarea id="wa_txt" rows="12" style="width:100%;font-size:13.5px;line-height:1.5"></textarea>
+ <div class="mfoot"><button class="btn l" onclick="closeModal()">Cancel</button><button class="btn" style="background:#1da851" onclick="waGo()">Send on WhatsApp</button></div>`);
+ waSetLang(last);
+}
+function waSetLang(l){if(!WAC)return;WAC.lang=l;['en','bn','hi'].forEach(k=>{const e=$('wal_'+k);if(e)e.className=k===l?'on':''});
+ const t=$('wa_txt');if(t)t.value=waBuild(WAC.kind,l,WAC.x).join('\n')}
+function waGo(){if(!WAC)return;const txt=$('wa_txt').value;try{localStorage.setItem('ua_walang',WAC.lang)}catch(e){}
+ waOpen(WAC.mob,txt.split('\n'));if(WAC.log)log(WAC.log[0],WAC.log[1],WAC.log[2]||'');closeModal();WAC=null}
+function waDue(id){const b=D.bills.find(x=>x.id===id);if(!b)return;waChoose('due',{b},b.customer_mob,['WhatsApp reminder',b.no,'₹'+inr(b.due)])}
+function waBill(id){const b=D.bills.find(x=>x.id===id);if(!b)return;waChoose('bill',{b},b.customer_mob,['WhatsApp bill',b.no,'to '+b.customer_mob])}
+function waParty(id){const p=D.parties.find(x=>x.id===id);if(!p)return;const bal=pBal(id);waChoose('party',{p,bal},p.mob,['WhatsApp reminder',p.name,'₹'+inr(Math.abs(bal))])}
 function waOpen(phone,lines){
  const d=String(phone||'').replace(/\D/g,'');
  const n=d.length===10?'91'+d:d;
  window.open('https://wa.me/'+n+'?text='+encodeURIComponent(lines.join('\n')),'_blank');
 }
-function waBill(id){
- const b=D.bills.find(x=>x.id===id);if(!b)return;
- if(!b.customer_mob){toast('Customer ka mobile nahi hai',true);return}
- const L=['*'+S.name+'*',S.address||'',S.gst_no?'GSTIN: '+S.gst_no:'','',
-  '*Bill No:* '+b.no,'*Date:* '+fd(b.date),'*Customer:* '+b.customer_name,''];
- (b.items||[]).forEach((it,i)=>L.push((i+1)+'. '+it.name+' × '+it.qty+' = ₹'+inr(it.amount)));
- L.push('','*Sub Total:* ₹'+inr(b.sub));
- if(num(b.discount)>0)L.push('*Discount:* -₹'+inr(b.discount));
- if(num(b.cgst)>0)L.push('*CGST 9%:* ₹'+inr(b.cgst),'*SGST 9%:* ₹'+inr(b.sgst));
- L.push('*Net Total:* ₹'+inr(b.total),'*Paid:* ₹'+inr(b.paid));
- if(num(b.due)>0)L.push('*Due:* ₹'+inr(b.due));
- L.push('','Thank You! Visit Again 🙏','- '+S.name);
- waOpen(b.customer_mob,L);
- log('WhatsApp bill',b.no,'to '+b.customer_mob);
-}
+
 
 /* ========== RESET DATA FUNCTION ========== */
 async function resetData(mode){
@@ -1453,7 +1649,7 @@ async function init(){
  S=D.settings[0]||{};
  M=D.meta[0]||{id:'meta',counters:{},dirty:{},lastPull:0,seeded:false,lastSync:0};
  try{
-  const tk=sessionStorage.getItem('ua_token'),sh=sessionStorage.getItem('ua_shop'),us=sessionStorage.getItem('ua_user');
+  const tk=localStorage.getItem('ua_token'),sh=localStorage.getItem('ua_shop'),us=localStorage.getItem('ua_user');
   if(tk&&sh&&us){TOKEN=tk;SHOP=JSON.parse(sh);ME=JSON.parse(us);
    if(S.setupDone){page='dashboard';render();syncNow();return}
   }
@@ -1463,7 +1659,7 @@ async function init(){
  window.addEventListener('offline',renderStatus);
  setInterval(()=>{if(TOKEN)syncNow()},15000);
 }
-init();
+init().then(()=>{try{trNode(document.body)}catch(e){}});
 if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
  const hadSW=!!navigator.serviceWorker.controller;
  navigator.serviceWorker.register('/sw.js').then(reg=>{try{reg.update()}catch(e){}}).catch(()=>{});

@@ -393,7 +393,7 @@ try:
 except ImportError:
     pass
 
-SHOP_TOKEN_AGE = 86400 * 30
+SHOP_TOKEN_AGE = 86400 * 180
 SUPER_TOKEN_AGE = 3600 * 12
 
 
