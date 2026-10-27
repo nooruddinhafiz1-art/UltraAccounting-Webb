@@ -342,12 +342,15 @@ def login():
         return jsonify({"error": "Shop code, username aur password zaroori hai"}), 400
     conn = get_db()
     cur = conn.cursor()
-    cur.execute("SELECT id, code, name, active FROM shops WHERE code = " + PH, (code,))
+    cur.execute("SELECT id, code, name, active, active_until FROM shops WHERE code = " + PH, (code,))
     shop = cur.fetchone()
     if not shop or not shop[3]:
         conn.close()
         return jsonify({"error": "Shop code galat hai ya shop inactive hai"}), 401
-    shop_id, shop_code, shop_name = shop[0], shop[1], shop[2]
+    if shop[4] and time.time() > shop[4] + 3 * 86400:  # 3 din ka grace
+        conn.close()
+        return jsonify({"error": "Your plan has expired. Please contact 7602292599 to renew.", "code": "expired"}), 403
+    shop_id, shop_code, shop_name, shop_until = shop[0], shop[1], shop[2], shop[4]
     cur.execute(
         "SELECT id, username, password_hash, role, name, active, perms FROM users WHERE shop_id = " + PH + " AND username = " + PH,
         (shop_id, username)
@@ -360,7 +363,7 @@ def login():
     return jsonify({
         "ok": True,
         "token": token,
-        "shop": {"id": shop_id, "code": shop_code, "name": shop_name},
+        "shop": {"id": shop_id, "code": shop_code, "name": shop_name, "active_until": shop_until},
         "user": {"id": u[0], "username": u[1], "role": u[3], "name": u[4], "perms": _perms_of(u[3], u[6])}
     })
 
@@ -434,12 +437,12 @@ def _auth(req):
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
-        "SELECT s.active, u.active FROM shops s JOIN users u ON u.shop_id = s.id WHERE s.id = " + PH + " AND u.id = " + PH,
+        "SELECT s.active, u.active, s.active_until FROM shops s JOIN users u ON u.shop_id = s.id WHERE s.id = " + PH + " AND u.id = " + PH,
         (sess.get("shop_id"), sess.get("user_id"))
     )
     r = cur.fetchone()
     conn.close()
-    if not r or not r[0] or not r[1]:
+    if not r or not r[0] or not r[1] or (r[2] and time.time() > r[2] + 3 * 86400):
         _auth_cache.pop(ck, None)
         return None
     _auth_cache[ck] = time.time() + 20
@@ -574,17 +577,39 @@ def get_records():
     limit = min(int(request.args.get("limit", 500) or 500), 1000)
     conn = get_db()
     cur = conn.cursor()
-    cur.execute(
-        "SELECT store, id, data, updated_at FROM records WHERE shop_id = " + PH +
-        " AND updated_at > " + PH + " ORDER BY updated_at ASC LIMIT " + PH,
-        (sess["shop_id"], since, limit)
-    )
-    rows = [
-        {"store": r[0], "id": r[1], "data": json.loads(r[2]), "updated_at": int(r[3])}
-        for r in cur.fetchall()
-    ]
+    out = []
+    cursor_ts = since
+    while len(out) < limit:
+        cur.execute(
+            "SELECT store, id, data, updated_at FROM records WHERE shop_id = " + PH +
+            " AND updated_at > " + PH + " ORDER BY updated_at ASC LIMIT " + PH,
+            (sess["shop_id"], cursor_ts, limit)
+        )
+        batch = cur.fetchall()
+        if not batch:
+            break
+        for r in batch:
+            cursor_ts = int(r[3])
+            data = json.loads(r[2])
+            if r[0] in PRIVATE_STORES and not _can_see(sess, data):
+                continue
+            out.append({"store": r[0], "id": r[1], "data": data, "updated_at": int(r[3])})
+            if len(out) >= limit:
+                break
+        if len(batch) < limit:
+            break
     conn.close()
-    return jsonify(rows)
+    return jsonify(out)
+
+
+PRIVATE_STORES = ("parties", "entries", "accounts", "transfers")  # personal ledger: har user ka apna
+
+
+def _can_see(sess, data):
+    owner = data.get("owner")
+    if owner:
+        return owner == sess.get("user_id")
+    return sess.get("role") == "admin"  # owner stamp ke bina purane records admin ke maane jate hain
 
 
 def _lock(cur):
@@ -627,6 +652,14 @@ def post_records():
                 (shop_id, store, rid)
             )
             old = cur.fetchone()
+            if store in PRIVATE_STORES:
+                try:
+                    old_data = json.loads(old[0]) if old else None
+                except (ValueError, TypeError):
+                    old_data = None
+                if old_data is not None and not _can_see(sess, old_data):
+                    continue  # kisi aur ka private record
+                data["owner"] = sess.get("user_id")
             if old:
                 try:
                     ou = int(json.loads(old[0]).get("_u") or 0)
